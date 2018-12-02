@@ -67,7 +67,9 @@ class FriendStoriesList extends Component {
   
   render() {
     const friendStoriesListData = this.props.friendStories.tray.map((friendStory, key) => {
-      const isPrivate = friendStory.user.is_private;
+    const user = (friendStory.user) ? friendStory.user : friendStory.owner;
+    const name = (user.username) ? user.username : user.name;
+    const isPrivate = user.is_private;
       return (
         <ListItem
           key={key}
@@ -77,9 +79,9 @@ class FriendStoriesList extends Component {
             <ToolbarGroup firstChild={true}>
               <ListItem
                 disabled
-                primaryText={friendStory.user.username}
+                primaryText={name}
                 secondaryText={getTimeElapsed(friendStory.latest_reel_media)}
-                leftAvatar={<Avatar src={friendStory.user.profile_pic_url} />}
+                leftAvatar={<Avatar src={user.profile_pic_url} />}
                 innerDivStyle={{marginLeft: '-14px'}}
                 />
             </ToolbarGroup>
