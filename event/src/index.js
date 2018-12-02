@@ -156,6 +156,19 @@ chrome.runtime.onMessage.addListener(
     }
   });
   
+  // listen for web requests so we can cancel them if necessary
+  chrome.webRequest.onBeforeRequest.addListener(
+    function() {
+      const viewStoriesAnonymously = store.getState().stories.viewStoriesAnonymously;
+      // cancel the request to mark a story as seen if the setting to view stories anonymously is set to true
+      return {cancel: (viewStoriesAnonymously) ? true : false};
+    },
+    {
+      urls: ["*://*.instagram.com/stories/reel/seen"]
+    },
+    ["blocking"]
+  );
+  
   // hook into web request and modify headers before sending the request
   chrome.webRequest.onBeforeSendHeaders.addListener(
     function(info) {
@@ -206,11 +219,13 @@ chrome.runtime.onMessage.addListener(
             }
           }
           if (header.name.toLowerCase() == 'user-agent' && shouldInjectHeaders) {
-            if(info.url.includes('reels_media')) {
-              // use Android User Agent for POST requests that are signed with the Android SIG_KEY
-              header.value = USER_AGENT_STRING_ANDROID;
-            } else {
-              header.value = USER_AGENT_STRING_IOS;
+            if(!info.url.includes('seen')) { // don't inject user-agent header for seen request
+              if(info.url.includes('reels_media')) {
+                // use Android User Agent for POST requests that are signed with the Android SIG_KEY
+                header.value = USER_AGENT_STRING_ANDROID;
+              } else {
+                header.value = USER_AGENT_STRING_IOS;
+              }
             }
           }
           if (header.name.toLowerCase() == 'cookie' && shouldInjectHeaders) { 
