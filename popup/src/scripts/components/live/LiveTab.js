@@ -43,14 +43,12 @@ class LiveTab extends Component {
   render() {
     const styles = {
       root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
       },
       gridList: {
         minHeight: TAB_CONTAINER_HEIGHT,
+        flexWrap: 'nowrap',
         overflowY: 'auto',
-        height: (this.state.isFullPopup) ?  $(window).height() - 112 : TAB_CONTAINER_HEIGHT + 'px'
+        minHeight: (this.state.isFullPopup) ?  $(window).height() - 112 : 'inherit'
       },
       viewCountSpan: {
         marginLeft: '5px',
@@ -61,22 +59,22 @@ class LiveTab extends Component {
     
     return (
       <div style={styles.root}>
+        <Subheader>Live Videos</Subheader>
         <GridList
-          cellHeight={260}
-          cols={3}
+          cellHeight={230}
           padding={5}
           style={styles.gridList}>
           {this.props.topLiveVideos.map((tile, index) => (
             <GridTile key={tile.id}>
               <img src={tile.cover_frame_url} style={{cursor: 'pointer', height: '100%'}} onClick={()=>this.selectLiveVideo(index)} />
-              <img src="../img/overlayBottom.png" style={{width: '100%', height: '85px', position: 'absolute', bottom: '0px'}}/>
-              <span className="liveStoryInfoSpan" style={{bottom: '32px'}}>
+              <img src="../img/overlayBottom.png" style={{width: '100%', height: '85px', position: 'absolute', bottom: '0px', left: 0}}/>
+              <span className="liveStoryInfoSpan" style={{bottom: '32px', left: 0}}>
                 <div>
                   <VisibilityIcon color="#ffffff"/>
                   <span style={styles.viewCountSpan}>{tile.viewer_count}</span>
                 </div>
               </span>
-              <span className="liveStoryInfoSpan" style={{bottom: '15px', fontSize: '15px', cursor: 'pointer'}} onClick={()=>this.onStoryAuthorUsernameClicked(index)}>{tile.broadcast_owner.username}</span>
+              <span className="liveStoryInfoSpan" style={{bottom: '15px', left: 0, fontSize: '15px', cursor: 'pointer'}} onClick={()=>this.onStoryAuthorUsernameClicked(index)}>{tile.broadcast_owner.username}</span>
             </GridTile>
           ))}
         </GridList>

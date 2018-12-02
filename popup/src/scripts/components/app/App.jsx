@@ -186,6 +186,14 @@ class App extends Component {
         top: '50%',
         left: '50%',
         transform: 'translate(0%, -50%)'
+      },
+      defaultTab: {
+        backgroundColor: TAB_BACKGROUND_COLOR_WHITE,
+        color: TAB_TEXT_COLOR_DARK_GRAY
+      },
+      activeTab: {
+        backgroundColor: TAB_BACKGROUND_COLOR_WHITE,
+        color: TAB_TEXT_COLOR_LIGHT_GRAY
       }
     };
     
@@ -264,39 +272,28 @@ class App extends Component {
         </div>
       );
     }
+    
+    styles.tab = [];
+    styles.tab[0] = styles.activeTab;
+    styles.tab[1] = styles.activeTab;
+    styles.tab[2] = styles.activeTab;
+    styles.tab[this.state.currentTabIndex] = Object.assign({}, styles.tab[this.state.currentTabIndex], styles.defaultTab);
 
     return (
       <div style={styles.popupContainer}>
         <div style={styles.friendsStoriesList}>
           {renderToolbar(toolbarActionsGroup)}
-          <div
-            style={styles.tabs}
+          <Tabs
+            value={this.state.currentTabIndex}
+            onChange={this.handleTabChange}
             className="tabs-container">
-            {currentTab}
-          </div>
-          <BottomNavigation selectedIndex={this.state.currentTabIndex} style={styles.bottomNavigation}>
-            <BottomNavigationItem
-              label="Friends"
-              icon={<PeopleIcon/>}
-              onTouchTap={() => this.handleTabChange(0)}
-              />
-            <BottomNavigationItem
-              label="Explore"
-              icon={<ActionExploreIcon/>}
-              onTouchTap={() => this.handleTabChange(1)}
-              />
-            <BottomNavigationItem
-              label="Top Live"
-              icon={<LiveTvIcon/>}
-              onTouchTap={() => this.handleTabChange(2)}
-              />
-            <BottomNavigationItem
-              label="Locations"
-              icon={<PlaceIcon/>}
-              onTouchTap={() => this.handleTabChange(3)}
-              />
-          </BottomNavigation>
-          
+            <Tab value={0} style={styles.tab[0]} label="Following" className="tab">
+              <FriendsTab isLoading={this.state.isFriendsTabLoading}/>
+            </Tab>
+            <Tab value={1} style={styles.tab[1]} label="Explore" className="tab">
+              <ExploreTab isLoading={this.state.isExploreTabLoading}/>
+            </Tab>
+          </Tabs>
         </div>
         
         <div style={styles.friendsStoryContainer}>

@@ -4,6 +4,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import LiveFriendVideosList from '../friends/LiveFriendVideosList';
 import SuggestedStoriesList from './SuggestedStoriesList';
+import LiveTab from '../live/LiveTab';
 import $ from 'jquery';
 
 import {TAB_CONTAINER_HEIGHT, TAB_BACKGROUND_COLOR_WHITE} from '../../../../../utils/Constants';
@@ -51,7 +52,7 @@ class ExploreTab extends Component {
             status="loading"
             style={styles.refreshIndicator}/>
         }
-        
+        <LiveTab/>
         <SuggestedStoriesList stories={this.props.exploreStories}/>
       </div>
     );
