@@ -18,10 +18,6 @@ class PeopleSearchTab extends Component {
     }
   }
 
-  componentDidMount() {
-    this.searchForUser(this.props.searchQuery);
-  }
-
   componentWillReceiveProps(nextProps) {
     if(this.props.searchQuery !== nextProps.searchQuery) {
       this.searchForUser(nextProps.searchQuery);

@@ -28,7 +28,7 @@ class SearchPage extends Component {
     super(props);
     this.state = {
       currentTabIndex: 0,
-      isSearchResultsActive: false,
+      isSearchResultsActive: true,
       isFullPopup: false,
       searchQuery: ''
     }
@@ -119,6 +119,13 @@ class SearchPage extends Component {
       });
     }
   }
+  
+  closeSearch() {
+    this.props.dispatch({
+      type: 'SET_IS_SEARCH_ACTIVE',
+      isSearchActive: false
+    });
+  }
 
   render() {
     const styles = {
@@ -161,7 +168,7 @@ class SearchPage extends Component {
     styles.tab[this.state.currentTabIndex] = Object.assign({}, styles.tab[this.state.currentTabIndex], styles.defaultTab);
 
     return (
-      <div>
+      <div style={{position: 'absolute', width: '55%', zIndex: 1}}>
 
         {this.state.isSearchResultsActive &&
           <div>
@@ -177,7 +184,7 @@ class SearchPage extends Component {
                   />
               }
               iconElementLeft={
-                <IconButton onClick={()=> this.setState({isSearchResultsActive: false})}>
+                <IconButton onClick={()=> this.closeSearch()}>
                   <NavigationArrowBackIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
                 </IconButton>
               }

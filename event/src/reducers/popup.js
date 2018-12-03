@@ -1,7 +1,7 @@
 const initialState = {
   currentStoryObject: null,
   isFullPopup: false,
-  isSearchActive: true,
+  isSearchActive: false,
   isSnackbarActive: false,
   isCookiesValid: true,
   cookies: {}

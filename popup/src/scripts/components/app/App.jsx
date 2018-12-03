@@ -72,8 +72,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setSearchActive();
-    
     if(this.props.isFullPopup) {
       AnalyticsUtil.track("Popout Opened");
       this.setState({isFullPopup: true});
@@ -283,6 +281,7 @@ class App extends Component {
       <div style={styles.popupContainer}>
         <div style={styles.friendsStoriesList}>
           {renderToolbar(toolbarActionsGroup)}
+          {this.props.isSearchActive && <SearchPage/>}
           <Tabs
             value={this.state.currentTabIndex}
             onChange={this.handleTabChange}
@@ -298,7 +297,6 @@ class App extends Component {
         
         <div style={styles.friendsStoryContainer}>
           {!this.props.isSearchActive && <StoryContainer isSnackbarActive={this.props.isSnackbarActive} />}
-          {this.props.isSearchActive && <SearchPage/>}
           <Snackbar
             open={this.props.isSnackbarActive}
             autoHideDuration={3000}

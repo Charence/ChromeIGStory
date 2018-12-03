@@ -18,10 +18,6 @@ class HashtagSearchTab extends Component {
     }
   }
 
-  componentDidMount() {
-    this.searchForHashtag(this.props.searchQuery);
-  }
-
   componentWillReceiveProps(nextProps) {
     if(this.props.searchQuery !== nextProps.searchQuery) {
       this.searchForHashtag(nextProps.searchQuery);

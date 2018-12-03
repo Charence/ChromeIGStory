@@ -18,10 +18,6 @@ class LocationSearchTab extends Component {
     }
   }
 
-  componentDidMount() {
-    this.searchForLocation(this.props.searchQuery);
-  }
-
   componentWillReceiveProps(nextProps) {
     if(this.props.searchQuery !== nextProps.searchQuery) {
       this.searchForLocation(nextProps.searchQuery);
