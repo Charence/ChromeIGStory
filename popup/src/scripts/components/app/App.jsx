@@ -146,8 +146,10 @@ class App extends Component {
   render() {
     const styles = {
       popupContainer: {
-        minWidth: POPUP_CONTAINER_WIDTH + 'px',
-        minHeight: POPUP_CONTAINER_HEIGHT + 'px',
+        width: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_WIDTH + 'px',
+        minWidth: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_WIDTH + 'px',
+        height: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_HEIGHT + 'px',
+        minHeight: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_HEIGHT + 'px',
         margin: '0px',
         overflow: 'hidden'
       },
