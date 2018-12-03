@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import Dialog from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
 import StoryContainer from './StoryContainer';
 import {closeStoryModal} from '../../utils/ContentUtils';
 

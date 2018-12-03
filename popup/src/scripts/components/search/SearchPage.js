@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import AppBar from 'material-ui/AppBar';
-import TextField from 'material-ui/TextField';
-import ActionSearchIcon from 'material-ui/svg-icons/action/search';
-import NavigationArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
-import Divider from 'material-ui/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import TextField from '@material-ui/core/TextField';
+import ActionSearchIcon from '@material-ui/core/svg-icons/action/search';
+import NavigationArrowBackIcon from '@material-ui/core/svg-icons/navigation/arrow-back';
+import NavigationCloseIcon from '@material-ui/core/svg-icons/navigation/close';
+import RaisedButton from '@material-ui/core/RaisedButton';
+import FlatButton from '@material-ui/core/FlatButton';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 import PeopleSearchTab from '../search/PeopleSearchTab';
 import HashtagSearchTab from '../search/HashtagSearchTab';
 import LocationSearchTab from '../search/LocationSearchTab';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import Paper from 'material-ui/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import {
   TAB_TEXT_COLOR_DARK_GRAY,

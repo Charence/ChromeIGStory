@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
-import CircularProgress from 'material-ui/CircularProgress';
-import DownloadIcon from 'material-ui/svg-icons/file/file-download';
+import Popover from '@material-ui/core/Popover';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
 import {getUserFromStoryResponse, getTimeElapsed, downloadStory} from '../../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../../utils/ContentUtils';
 import InstagramApi from '../../../../../../utils/InstagramApi';

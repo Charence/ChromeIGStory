@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import Popover from 'material-ui/Popover';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
-import CircularProgress from 'material-ui/CircularProgress';
-import VideoLibraryIcon from 'material-ui/svg-icons/av/video-library';
-import MusicLibraryIcon from 'material-ui/svg-icons/av/library-music';
-import DownloadIcon from 'material-ui/svg-icons/file/file-download';
+import Popover from '@material-ui/core/Popover';
+import Dialog from '@material-ui/core/Dialog';
+import FlatButton from '@material-ui/core/FlatButton';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardTitle from '@material-ui/core/CardTitle';
+import CardText from '@material-ui/core/CardText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import VideoLibraryIcon from '@material-ui/core/svg-icons/av/video-library';
+import MusicLibraryIcon from '@material-ui/core/svg-icons/av/library-music';
+import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
 import {getTimeElapsed, getLiveVideoMp4VideoUrl, getLiveVideoMp4AudioUrl, downloadStory} from '../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../utils/ContentUtils';
 import LiveVideoReplayDownloadDialog from '../../../../../utils/LiveVideoReplayDownloadDialog';
@@ -199,5 +204,5 @@ class LiveVideoReplayTrayItem extends Component {
           )
         }
       }
-      
-      export default LiveVideoReplayTrayItem;
+
+export default LiveVideoReplayTrayItem;

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import {ListItem} from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
+import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import {ListItem} from '@material-ui/core/List';
+import Avatar from '@material-ui/core/Avatar';
 import JSZip from 'jszip';
 import JSZipUtils from 'jszip-utils';
 import FileSaver from 'file-saver';

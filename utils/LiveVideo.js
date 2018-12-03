@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { MediaPlayer } from 'dashjs';
 import MediaPlayerEvents from "../node_modules/dashjs/build/es5/src/streaming/MediaPlayerEvents.js";
-import {List, ListItem} from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import VisibilityIcon from 'material-ui/svg-icons/action/visibility';
-import CircularProgress from 'material-ui/CircularProgress';
+import {List, ListItem} from '@material-ui/core/List';
+import Avatar from '@material-ui/core/Avatar';
+import VisibilityIcon from '@material-ui/core/svg-icons/action/visibility';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import $ from 'jquery';
 import {getLiveVideoManifestObject} from './Utils';
 import AnalyticsUtil from './AnalyticsUtil';

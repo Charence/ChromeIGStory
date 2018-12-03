@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {GridList, GridTile} from 'material-ui/GridList';
-import Subheader from 'material-ui/Subheader';
-import VisibilityIcon from 'material-ui/svg-icons/action/visibility';
+import GridList from '@material-ui/core/GridList';
+import GridTile from '@material-ui/core/GridTile';
+import Subheader from '@material-ui/core/Subheader';
+import VisibilityIcon from '@material-ui/core/svg-icons/action/visibility';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
 import $ from 'jquery';

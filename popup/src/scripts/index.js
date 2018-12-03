@@ -5,8 +5,8 @@ import {Store} from 'react-chrome-redux';
 import {Provider} from 'react-redux';
 import Raven from 'raven-js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from '@material-ui/core/styles/getMuiTheme'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import AnalyticsUtil from '../../../utils/AnalyticsUtil';
 import {SENTRY_TOKEN, muiTheme} from '../../../utils/Constants';
 

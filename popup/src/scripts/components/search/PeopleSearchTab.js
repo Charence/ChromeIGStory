@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import CircularProgress from 'material-ui/CircularProgress';
-import RefreshIndicator from 'material-ui/RefreshIndicator';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import RefreshIndicator from '@material-ui/core/RefreshIndicator';
 import PeopleSearchList from './PeopleSearchList';
 import $ from 'jquery';
 import InstagramApi from '../../../../../utils/InstagramApi';

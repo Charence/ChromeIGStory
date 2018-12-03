@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {proxyStore} from '../index.js';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import StoryContainer from '../components/app/StoryContainer';
 import StoryModal from '../components/app/StoryModal';
 import {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardMedia} from 'material-ui/Card';
+import Dialog from '@material-ui/core/Dialog';
+import FlatButton from '@material-ui/core/FlatButton';
+import {Card, CardActions, CardHeader, CardMedia} from '@material-ui/core/Card';
 import {getTimeElapsed, getLiveVideoMp4VideoUrl, getLiveVideoMp4AudioUrl} from './Utils';
 
 class LiveVideoReplayDownloadDialog extends Component {

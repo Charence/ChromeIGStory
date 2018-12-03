@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-import DownloadIcon from 'material-ui/svg-icons/file/file-download';
+import Popover from '@material-ui/core/Popover';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Chip from '@material-ui/core/Chip';
+import Avatar from '@material-ui/core/Avatar';
+import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
 import {setCurrentStoryObject} from '../../../utils/ContentUtils';
 import LiveVideoReplayDownloadDialog from '../../../../../../utils/LiveVideoReplayDownloadDialog';
 

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import {List, ListItem, makeSelectable} from 'material-ui/List';
-import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import Avatar from 'material-ui/Avatar';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import DownloadIcon from 'material-ui/svg-icons/file/file-download';
-import ShareIcon from 'material-ui/svg-icons/social/share';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import makeSelectable from '@material-ui/core/makeSelectable';
+import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import Avatar from '@material-ui/core/Avatar';
+import IconMenu from '@material-ui/core/IconMenu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import Subheader from '@material-ui/core/Subheader';
+import MoreVertIcon from '@material-ui/core/svg-icons/navigation/more-vert';
+import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import ShareIcon from '@material-ui/core/svg-icons/social/share';
 
 import LiveVideo from '../../../../../../utils/LiveVideo';
 import AnalyticsUtil from '../../../../../../utils/AnalyticsUtil';
