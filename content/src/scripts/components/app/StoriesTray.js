@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from '@material-ui/core/Toolbar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import DropDownMenu from '@material-ui/core/DropDownMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import OpenInNewIcon from '@material-ui/core/svg-icons/action/open-in-new';
-import ActionExploreIcon from '@material-ui/core/svg-icons/action/explore';
-import ActionSearchIcon from '@material-ui/core/svg-icons/action/search';
-import VisibilityOnIcon from '@material-ui/core/svg-icons/action/visibility';
-import VisibilityOffIcon from '@material-ui/core/svg-icons/action/visibility-off';
-import PeopleIcon from '@material-ui/core/svg-icons/social/people';
-import SettingsIcon from '@material-ui/core/svg-icons/action/settings';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import ActionExploreIcon from '@material-ui/icons/Explore';
+import ActionSearchIcon from '@material-ui/icons/Search';
+import VisibilityOnIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import PeopleIcon from '@material-ui/icons/People';
+import SettingsIcon from '@material-ui/icons/Settings';
 import StoryTrayItem from './StoryTrayItem';
 import LiveVideoTrayItem from './LiveVideoTrayItem';
 import LiveVideoReplayTrayItem from './LiveVideoReplayTrayItem';
@@ -222,10 +222,11 @@ render() {
   }
   
   const toolbarActionsGroup = (
-    <ToolbarGroup lastChild={true} style={{flexDirection: 'row'}}>
+    <div style={{flexDirection: 'row', textAlign: 'right'}}>
+      <Tooltip
+        title={"Anonymous Viewing " + ((this.props.viewStoriesAnonymously) ? "Enabled" : "Disabled")}
+        >
       <IconButton
-        tooltip={"Anonymous Viewing " + ((this.props.viewStoriesAnonymously) ? "Enabled" : "Disabled")}
-        tooltipPosition="top-center"
         onClick={() => toggleAnonymousStoryViews((viewStoriesAnonymously) => {
           this.props.dispatch({
             type: 'SET_VIEW_STORIES_ANONYMOUSLY',
@@ -234,14 +235,18 @@ render() {
         })}>
         {(this.props.viewStoriesAnonymously) ? <VisibilityOffIcon /> : <VisibilityOnIcon />}
       </IconButton>
+    </Tooltip>
+    <Tooltip
+      title={(this.state.selectedStoryTrayType === 'explore') ? 'Friends' : 'Explore'}
+      >
       <IconButton
-        tooltip={(this.state.selectedStoryTrayType === 'explore') ? 'Friends' : 'Explore'}
-        tooltipPosition="bottom-center"
         onClick={()=> {
           this.handleStoryTrayTypeChange();
         }}>
-        {(this.state.selectedStoryTrayType === 'explore') ? <PeopleIcon color={TAB_TEXT_COLOR_DARK_GRAY}/> : <ActionExploreIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>}
+        {(this.state.selectedStoryTrayType === 'explore') ? <PeopleIcon/> : <ActionExploreIcon/>}
       </IconButton>
+    </Tooltip>
+    {/*
       {!this.state.isFullPopup &&
         <IconButton
           tooltip="Popout"
@@ -252,7 +257,9 @@ render() {
           <OpenInNewIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
         </IconButton>
       }
-    </ToolbarGroup>
+    */}
+
+    </div>
   );
   
   return (

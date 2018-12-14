@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Popover from '@material-ui/core/Popover';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import InstagramApi from '../../../../../utils/InstagramApi';
 import {downloadStory} from '../../../../../utils/Utils';
 
@@ -70,8 +72,8 @@ class StoryTrayItem extends Component {
       },
       storyDownloadProgressIndicator: {
         position: 'absolute',
-        marginTop: '-14px',
-        marginLeft: '-3px'
+        marginTop: '-3px',
+        marginLeft: '3px'
       }
     }  
     
@@ -88,22 +90,21 @@ class StoryTrayItem extends Component {
     
     return (
       <div ref="TrayItemContainer" id={"igs_" + name} style={styles.trayItemContainer} className={(this.props.storyItem.muted) ? "mutedStoryItem" : ""}>
-        {this.state.isDownloadingStory && <CircularProgress className="center-div" style={styles.storyDownloadProgressIndicator} size={90} />}
+        {this.state.isDownloadingStory && <CircularProgress style={styles.storyDownloadProgressIndicator} thickness={2.0} size={80} />}
         <img className={"trayItemImage " + seenClass} src={trayIconImageUrl} onClick={() => this.props.onViewUserStory(this.props.storyItem)}/>
         <span style={styles.trayItemUsername}>{name.substr(0, 10) + (name.length > 10 ? '…' : '')}</span>
-        <Popover
+        <Menu
           open={this.state.isRightClickMenuActive}
           anchorEl={this.state.rightClickMenuAnchor}
-          anchorOrigin={{horizontal: 'middle', vertical: 'center'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={() => this.handleRightClickMenuRequestClose()}>
-          <Menu>
-            <MenuItem
-              primaryText="Download"
-              leftIcon={<DownloadIcon />} 
-              onClick={() => this.onDownloadStory()}/>
-          </Menu>
-        </Popover>
+          onClose={() => this.handleRightClickMenuRequestClose()}>
+          <MenuItem
+            onClick={() => this.onDownloadStory()}>
+            <ListItemIcon>
+              <DownloadIcon />
+            </ListItemIcon>
+            <ListItemText primary="Download" />
+          </MenuItem>
+        </Menu>
       </div>
     )
   }

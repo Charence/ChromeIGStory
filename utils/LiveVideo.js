@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { MediaPlayer } from 'dashjs';
 import MediaPlayerEvents from "../node_modules/dashjs/build/es5/src/streaming/MediaPlayerEvents.js";
-import {List, ListItem} from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import VisibilityIcon from '@material-ui/core/svg-icons/action/visibility';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import $ from 'jquery';
 import {getLiveVideoManifestObject} from './Utils';
@@ -196,10 +200,7 @@ class LiveVideo extends Component {
       },
       chatMessageStyle: {
         fontSize: '12px',
-        paddingLeft: '60px',
-        paddingTop: '12px',
-        paddingRight: '0px',
-        paddingBottom: '0px'
+        paddingLeft: '10px'
       },
       chatBox: {
         backgroundImage: 'url(' + chrome.extension.getURL('img/overlayBottom.png') + ')',
@@ -281,17 +282,28 @@ class LiveVideo extends Component {
       return (
         <ListItem
           key={key}
-          disabled={true}
           style={styles.chatMessageStyle}
-          leftAvatar={<Avatar src={comment.user.profile_pic_url} style={{cursor: 'pointer'}} size={32} onClick={() => this.onChatMesssageAuthorUsernameClicked(key)} />}
-          primaryText={comment.user.username}
-          secondaryText={
-            <p style={{color: 'white', height: 'initial', fontSize: '12px'}}>
-              {comment.text}
-            </p>
-          }
-          secondaryTextLines={2}
-          />
+          >
+          <ListItemAvatar>
+            <Avatar src={comment.user.profile_pic_url} style={{cursor: 'pointer'}} size={32} onClick={() => this.onChatMesssageAuthorUsernameClicked(key)} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={
+              <React.Fragment>
+                <Typography component="span" color="textPrimary" style={{color: 'white', fontSize: '12px'}}>
+                  {comment.user.username}
+                </Typography>
+              </React.Fragment>
+            }
+            secondary={
+              <React.Fragment>
+                <Typography component="span" color="textPrimary" style={{color: 'white', height: 'initial', fontSize: '12px'}}>
+                  {comment.text}
+                </Typography>
+              </React.Fragment>
+            }
+            />
+        </ListItem>
       )
     });
     
@@ -315,7 +327,7 @@ class LiveVideo extends Component {
         {!this.props.isLiveVideoReplay &&
           <div style={styles.liveVideoInfoContainer}>
             <div style={styles.liveCountLabel}>
-              <VisibilityIcon color="#ffffff" style={{float: 'left'}} viewBox={'0 0 32 32'}/>
+              <VisibilityIcon style={{float: 'left'}} viewBox={'0 0 32 32'}/>
               <p style={styles.viewCountSpan}>{this.state.liveItem.viewer_count}</p>
             </div>
             <img src={chrome.extension.getURL('img/icon_live.png')} style={{height: '25px'}} alt="Live Icon"/>

@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 import Story from '../../../../../../utils/Story';
 
 import {fetchStory, getStorySlide, getStoryCoverImage, onStoryAuthorUsernameClicked, getTimeElapsed} from '../../../../../../utils/Utils';

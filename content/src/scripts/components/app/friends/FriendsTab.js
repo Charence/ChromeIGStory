@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import RefreshIndicator from '@material-ui/core/RefreshIndicator';
+// import RefreshIndicator from '@material-ui/core/RefreshIndicator';
 import LiveFriendVideoReplaysList from './LiveFriendVideoReplaysList';
 import LiveFriendVideosList from './LiveFriendVideosList';
 import FriendStoriesList from './FriendStoriesList';
@@ -30,14 +30,14 @@ class FriendsTab extends Component {
     }
     return (
       <div style={styles.container}>
-        {this.props.isLoading && this.props.friendStories.tray.length > 0 && 
+        {/*this.props.isLoading && this.props.friendStories.tray.length > 0 && 
           <RefreshIndicator
             size={40}
             left={10}
             top={0}
             status="loading"
             style={styles.refreshIndicator}/>
-        }
+        */}
         
         {this.props.friendStories.post_live && 
           <LiveFriendVideoReplaysList liveVideoReplays={this.props.friendStories.post_live.post_live_items}/>

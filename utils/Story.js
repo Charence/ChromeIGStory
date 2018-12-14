@@ -4,7 +4,7 @@ import StoryGallery from 'react-image-gallery';
 import StoryProgress from './StoryProgress';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import LinkIcon from '@material-ui/core/svg-icons/content/link';
+import LinkIcon from '@material-ui/icons/Link';
 import {isVideo, getTimeElapsed} from './Utils';
 import InstagramApi from './InstagramApi';
 import AnalyticsUtil from './AnalyticsUtil';
@@ -174,11 +174,14 @@ class Story extends Component {
     return (
       <Chip
         style={{marginBottom: '5px', flexDirection: 'row', cursor: 'pointer'}}
-        labelStyle={{maxWidth: '85px', overflowX: 'hidden', textOverflow: 'ellipsis'}}
-        onClick={() => this.onStoryTagClicked(type)}>
-        <Avatar color="#444" src={iconSrc} />
-        {tagText}
-      </Chip>  
+        label={tagText}
+        classes={{
+          label: 'story-chip-label'
+        }}
+        avatar={
+          <Avatar color="#444" src={iconSrc} />
+        }
+        onClick={() => this.onStoryTagClicked(type)}/>  
     );
   }
   

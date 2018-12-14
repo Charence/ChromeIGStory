@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import LinearProgress from '@@@material-ui/core/core/core/LinearProgress';
-import DropDownMenu from '@@@material-ui/core/core/core/DropDownMenu';
-import MenuItem from '@@material-ui/core/core/MenuItem';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import MenuItem from '@material-ui/core/MenuItem';
 
-import {Toolbar, ToolbarGroup} from '@@material-ui/core/core/Toolbar';
-import {Tabs, Tab} from '@@material-ui/core/core/Tabs';
-import {List, ListItem, makeSelectable} from '@@material-ui/core/core/List';
-import Avatar from '@@material-ui/core/core/Avatar';
-import IconButton from '@@material-ui/core/core/IconButton';
-import DownloadIcon from '@@material-ui/core/core/svg-icons/file/file-download';
-import ShareIcon from '@@material-ui/core/core/svg-icons/social/share';
-import CircularProgress from '@@material-ui/core/core/CircularProgress';
+import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import {Tabs, Tab} from '@material-ui/core/Tabs';
+import {List, ListItem} from '@material-ui/core/List';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import StoryTrayItem from './StoryTrayItem';
 

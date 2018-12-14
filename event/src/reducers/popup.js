@@ -4,6 +4,7 @@ const initialState = {
   isSearchActive: false,
   isSnackbarActive: false,
   isCookiesValid: true,
+  isPrivacyDisclaimerAcknowledged: false,
   cookies: {}
 };
 
@@ -38,6 +39,11 @@ export default (state = initialState, action) => {
     return {
       ...state,
       isCookiesValid: action.isCookiesValid
+    }
+    case 'SET_PRIVACY_DISCLAIMER_ACKNOWLEDGED':
+    return {
+      ...state,
+      isPrivacyDisclaimerAcknowledged: action.isPrivacyDisclaimerAcknowledged
     }
     default:
     return state;

@@ -4,7 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import {setCurrentStoryObject} from '../../../utils/ContentUtils';
 import LiveVideoReplayDownloadDialog from '../../../../../../utils/LiveVideoReplayDownloadDialog';
 

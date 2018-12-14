@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Subheader from '@material-ui/core/Subheader';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {fetchStory, getTimeElapsed} from '../../../../../utils/Utils';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import InstagramApi from '../../../../../utils/InstagramApi';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
-let SelectableList = makeSelectable(List);
 
 class FriendStoriesList extends Component {
   constructor(props){
@@ -67,49 +68,86 @@ class FriendStoriesList extends Component {
     window.open('https://watchmatcha.com/user/' + selectedStory.user.username);
   }
   
-  render() {
-    const friendStoriesListData = this.props.friendStories.tray.map((friendStory, key) => {
-    const user = (friendStory.user) ? friendStory.user : friendStory.owner;
+  renderListItem(index, storyItem) {
+    const styles = {
+      listItem: {
+        flex: 1,
+        background: 'transparent',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        minHeight: '48px'
+      },
+      listItemContent: {
+        display: 'flex', 
+        flex: 1
+      },
+      listItemActions: {
+        display: 'flex',
+        textAlign: 'right'
+      }
+    }
+    
+    const { selectedIndex, isDownloadingStory, downloadingIndex } = this.state;
+    const user = (storyItem.user) ? storyItem.user : storyItem.owner;
     const name = (user.username) ? user.username : user.name;
     const isPrivate = user.is_private;
-      return (
-        <ListItem
-          key={key}
-          value={key}
-          innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}>
-          <Toolbar style={{paddingTop: '0px', paddingBottom: '0px', background: 'transparent'}}>
-            <ToolbarGroup firstChild={true}>
-              <ListItem
-                disabled
-                primaryText={name}
-                secondaryText={getTimeElapsed(friendStory.latest_reel_media)}
-                leftAvatar={<Avatar src={user.profile_pic_url} />}
-                innerDivStyle={{marginLeft: '-14px'}}
-                />
-            </ToolbarGroup>
-            <ToolbarGroup lastChild={true}>
+    return (
+      <ListItem
+        key={index}
+        button
+        selected={selectedIndex === index}
+        onClick={event => this.handleRequestChange(event, index)}
+        >
+        <Toolbar style={styles.listItem}>
+          <div style={styles.listItemContent}>
+            <ListItemAvatar>
+              <Avatar src={user.profile_pic_url} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={name}
+              secondary={getTimeElapsed(storyItem.latest_reel_media)}
+              />
+          </div>
+          <div style={styles.listItemActions}>
+            {/*
+            <Tooltip
+              title={(isPrivate) ? "Can't Share Private Story" : "Share"}
+              placement="bottom"
+              >
+              <div>
+                <IconButton
+                  disabled={isPrivate}
+                  onClick={() => this.onShareStory(index)}>
+                  <ShareIcon />
+                </IconButton>
+              </div>
+            </Tooltip>
+            */}
+            <Tooltip
+              title="Download"
+              placement="bottom"
+              >
               <IconButton
-                tooltip={(isPrivate) ? "Can't Share Private Story" : "Share"}
-                disabled={isPrivate}
-                onClick={() => this.onShareStory(key)}>
-                <ShareIcon />
+                onClick={() => this.onDownloadStory(index)}>
+                {(isDownloadingStory && downloadingIndex === index) ? <CircularProgress size={24}/> : <DownloadIcon />}
               </IconButton>
-              <IconButton
-                tooltip="Download"
-                onClick={() => this.onDownloadStory(key)}>
-                {(this.state.isDownloadingStory && this.state.downloadingIndex === key) ? <CircularProgress size={24}/> : <DownloadIcon />}
-              </IconButton>
-            </ToolbarGroup>
-          </Toolbar>
-        </ListItem>
-      )
+            </Tooltip>
+          </div>
+        </Toolbar>
+      </ListItem>
+    )
+  }
+  
+  render() {
+    const friendStoriesListData = this.props.friendStories.tray.map((friendStory, key) => {
+      return this.renderListItem(key, friendStory);
     });
     
     return (
-      <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
-        <Subheader>{"Friend's"} Stories</Subheader>
+      <List onChange={this.handleRequestChange.bind(this)}>
+        <ListSubheader disableSticky>{"Friend's"} Stories</ListSubheader>
         {friendStoriesListData}
-      </SelectableList>
+      </List>
     )
   }
 }

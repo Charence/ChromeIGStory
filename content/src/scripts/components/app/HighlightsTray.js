@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import DropDownMenu from '@material-ui/core/DropDownMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import StoryTrayItem from './StoryTrayItem';
 import InstagramApi from '../../../../../utils/InstagramApi';

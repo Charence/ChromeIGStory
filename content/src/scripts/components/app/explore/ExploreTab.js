@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import RefreshIndicator from '@material-ui/core/RefreshIndicator';
+// import RefreshIndicator from '@material-ui/core/RefreshIndicator';
 import LiveFriendVideosList from '../friends/LiveFriendVideosList';
 import SuggestedStoriesList from './SuggestedStoriesList';
 import $ from 'jquery';
@@ -22,14 +22,14 @@ class ExploreTab extends Component {
     
     return (
       <div style={styles.container}>
-        {this.props.exploreStories.tray && this.props.exploreStories.tray.length === 0 && 
+        {/*this.props.exploreStories.tray && this.props.exploreStories.tray.length === 0 && 
           <RefreshIndicator
             size={40}
             left={10}
             top={0}
             status="loading"
             style={styles.refreshIndicator}/>
-        }
+        */}
         
         {this.props.topLiveVideos && this.props.topLiveVideos.length > 0 &&
           <LiveFriendVideosList liveVideoItems={this.props.topLiveVideos}/>  

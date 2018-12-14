@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import Popover from '@material-ui/core/Popover';
 import Dialog from '@material-ui/core/Dialog';
-import FlatButton from '@material-ui/core/FlatButton';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardTitle from '@material-ui/core/CardTitle';
-import CardText from '@material-ui/core/CardText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import VideoLibraryIcon from '@material-ui/core/svg-icons/av/video-library';
-import MusicLibraryIcon from '@material-ui/core/svg-icons/av/library-music';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import MusicLibraryIcon from '@material-ui/icons/LibraryMusic';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import {getTimeElapsed, getLiveVideoMp4VideoUrl, getLiveVideoMp4AudioUrl, downloadStory} from '../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../utils/ContentUtils';
 import LiveVideoReplayDownloadDialog from '../../../../../utils/LiveVideoReplayDownloadDialog';
@@ -110,13 +110,13 @@ class LiveVideoReplayTrayItem extends Component {
             <img src={liveVideoItem.cover_frame_url} alt="" style={{height: '250px', objectFit: 'contain'}}/>
           </CardMedia>
           <CardActions>
-            <FlatButton label="Open Audio URL" onClick={() => {
+            <Button label="Open Audio URL" onClick={() => {
                 var selectedStory = this.props.liveItem.broadcasts[0];
                 getLiveVideoMp4AudioUrl(selectedStory.dash_manifest, (videoUrl) => {
                   window.open(videoUrl);
                 });
               }} />
-              <FlatButton label="Open Video URL" onClick={() => {
+              <Button label="Open Video URL" onClick={() => {
                   var selectedStory = this.props.liveItem.broadcasts[0];
                   getLiveVideoMp4VideoUrl(selectedStory.dash_manifest, (videoUrl) => {
                     window.open(videoUrl);
@@ -140,60 +140,56 @@ class LiveVideoReplayTrayItem extends Component {
                 <span style={styles.trayItemUsername}>{this.props.liveItem.user.username.substr(0, 10) + (this.props.liveItem.user.username.length > 10 ? '…' : '')}</span>
               }
               
-              <Popover
+              <Menu
                 open={this.state.isRightClickMenuActive}
                 anchorEl={this.state.rightClickMenuAnchor}
-                anchorOrigin={{horizontal: 'middle', vertical: 'center'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                onRequestClose={() => this.handleRightClickMenuRequestClose()}>
-                <Menu>
+                onClose={() => this.handleRightClickMenuRequestClose()}>
                   {this.props.storyItem !== null && isUserProfile &&
                     <MenuItem
-                      primaryText="Download Story"
-                      leftIcon={<DownloadIcon />} 
                       onClick={() => {
                         this.handleRightClickMenuRequestClose();
                         this.setState({isDownloadingStory: true});
                         downloadStory(this.props.storyItem, () => {
                           this.setState({isDownloadingStory: false});
                         });
-                      }}
-                      />
+                      }}>
+                      <ListItemIcon>
+                        <DownloadIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Download Story" />
+                    </MenuItem>
                   }
                   <MenuItem
-                    primaryText="Download Live Video"
-                    leftIcon={<DownloadIcon />} 
                     onClick={() => {
                       this.handleRightClickMenuRequestClose();
                       this.setState({isDownloadLiveVideoDialogOpen: true});
-                    }}
-                    />
+                    }}>
+                    <ListItemIcon>
+                      <DownloadIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Download Live Video" />
+                  </MenuItem>
                 </Menu>
-              </Popover>
               
-              <Popover
+              <Menu
                 open={this.state.isLeftClickMenuActive}
                 anchorEl={this.state.leftClickMenuAnchor}
-                anchorOrigin={{horizontal: 'middle', vertical: 'center'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                onRequestClose={() => this.handleLeftClickMenuRequestClose()}>
-                <Menu>
+                onClose={() => this.handleLeftClickMenuRequestClose()}>
                   <MenuItem
-                    primaryText="View Story"
                     onClick={() => {
                       this.handleLeftClickMenuRequestClose();
                       this.props.onViewUserStory(this.props.storyItem);
-                    }}
-                    />
+                    }}>
+                    <ListItemText primary="View Story" />
+                  </MenuItem>
                   <MenuItem
-                    primaryText="Watch Live Video"
                     onClick={() => {
                       this.handleLeftClickMenuRequestClose();
                       this.props.onViewLiveVideoReplay();
-                    }}
-                    />
-                </Menu>
-              </Popover>
+                    }}>
+                    <ListItemText primary="Watch Live Video" />
+                  </MenuItem>
+              </Menu>
               
               <LiveVideoReplayDownloadDialog
                 isOpen={this.state.isDownloadLiveVideoDialogOpen}

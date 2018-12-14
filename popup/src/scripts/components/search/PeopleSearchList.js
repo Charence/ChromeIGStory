@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InstagramApi from '../../../../../utils/InstagramApi';
 import {fetchStory} from '../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
-
-let SelectableList = makeSelectable(List);
 
 class PeopleSearchList extends Component {
   constructor(props){
@@ -23,7 +23,7 @@ class PeopleSearchList extends Component {
       isDownloadingStory: false
     }
   }
-
+  
   handleRequestChange (event, index) {
     var selectedResult = this.props.results[index];
     selectedResult.id = selectedResult.pk;
@@ -42,51 +42,61 @@ class PeopleSearchList extends Component {
       }
     });
   }
-
+  
   getMenuItem(index) {
     return (
-      <IconButton
-        tooltip="Download"
-        onClick={() => {
-          if(!this.state.isDownloadingStory) {
-            var selectedResult = this.props.results[index];
-            selectedResult.id = selectedResult.pk;
-            this.setState({
-              isDownloadingStory: true,
-              downloadingIndex: index
-            });
-            fetchStory(selectedResult, true, (story) => {
-              this.setState({isDownloadingStory: false});
-              if(!story) {
-                // show 'No Story Available' Snackbar message
-                setCurrentStoryObject(null, null);
-              }
-            });
-          }
-        }}>
-        {(this.state.isDownloadingStory && this.state.downloadingIndex === index) ? <CircularProgress size={24}/> : <DownloadIcon />}
-      </IconButton>
+      <Tooltip
+        title="Download"
+        >
+        <IconButton
+          onClick={() => {
+            if(!this.state.isDownloadingStory) {
+              var selectedResult = this.props.results[index];
+              selectedResult.id = selectedResult.pk;
+              this.setState({
+                isDownloadingStory: true,
+                downloadingIndex: index
+              });
+              fetchStory(selectedResult, true, (story) => {
+                this.setState({isDownloadingStory: false});
+                if(!story) {
+                  // show 'No Story Available' Snackbar message
+                  setCurrentStoryObject(null, null);
+                }
+              });
+            }
+          }}>
+          {(this.state.isDownloadingStory && this.state.downloadingIndex === index) ? <CircularProgress size={24}/> : <DownloadIcon />}
+        </IconButton>
+      </Tooltip>
     );
   }
-
+  
   render() {
     const peopleSearchListData = this.props.results.map((user, key) => {
       return (
         <ListItem
           key={key}
-          value={key}
-          primaryText={user.username}
-          secondaryText={user.full_name}
-          leftAvatar={<Avatar src={user.profile_pic_url} />}
-          rightIconButton={this.getMenuItem(key)}
-          />
+          button
+          selected={this.state.selectedIndex === key}
+          onClick={event => this.handleRequestChange(event, key)}
+          >
+          <ListItemAvatar>
+            <Avatar src={user.profile_pic_url} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={user.username}
+            secondary={user.full_name}
+            />
+          {this.getMenuItem(key)}
+        </ListItem>
       )
     });
-
+    
     return (
-      <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
+      <List onChange={this.handleRequestChange.bind(this)}>
         {peopleSearchListData}
-      </SelectableList>
+      </List>
     )
   }
 }

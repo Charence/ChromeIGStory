@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import PlaceIcon from '@material-ui/core/svg-icons/maps/place';
+import PlaceIcon from '@material-ui/icons/Place';
 import InstagramApi from '../../../../../utils/InstagramApi';
 import {fetchStory} from '../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
-
-let SelectableList = makeSelectable(List);
 
 class LocationSearchList extends Component {
   constructor(props){
@@ -48,26 +48,29 @@ class LocationSearchList extends Component {
 
   getMenuItem(index) {
     return (
-      <IconButton
-        tooltip="Download"
-        onClick={() => {
-          if(!this.state.isDownloadingStory) {
-            var selectedResult = this.props.results[index];
-            this.setState({
-              isDownloadingStory: true,
-              downloadingIndex: index
-            });
-            fetchStory(selectedResult, true, (story) => {
-              this.setState({isDownloadingStory: false});
-              if(!story) {
-                // show 'No Story Available' Snackbar message
-                setCurrentStoryObject(null, null);
-              }
-            });
-          }
-        }}>
-        {(this.state.isDownloadingStory && this.state.downloadingIndex === index) ? <CircularProgress size={24}/> : <DownloadIcon />}
-      </IconButton>
+      <Tooltip
+        title="Download"
+        >
+        <IconButton
+          onClick={() => {
+            if(!this.state.isDownloadingStory) {
+              var selectedResult = this.props.results[index];
+              this.setState({
+                isDownloadingStory: true,
+                downloadingIndex: index
+              });
+              fetchStory(selectedResult, true, (story) => {
+                this.setState({isDownloadingStory: false});
+                if(!story) {
+                  // show 'No Story Available' Snackbar message
+                  setCurrentStoryObject(null, null);
+                }
+              });
+            }
+          }}>
+          {(this.state.isDownloadingStory && this.state.downloadingIndex === index) ? <CircularProgress size={24}/> : <DownloadIcon />}
+        </IconButton>
+      </Tooltip>
     );
   }
 
@@ -76,19 +79,28 @@ class LocationSearchList extends Component {
       return (
         <ListItem
           key={key}
-          value={key}
-          primaryText={place.title}
-          secondaryText={place.subtitle}
-          leftAvatar={<Avatar icon={<PlaceIcon/>}/>}
-          rightIconButton={this.getMenuItem(key)}
-          />
+          button
+          selected={this.state.selectedIndex === key}
+          onClick={event => this.handleRequestChange(event, key)}
+          >
+          <ListItemAvatar>
+            <Avatar>
+              <PlaceIcon/>
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={place.title}
+            secondary={place.subtitle}
+            />
+          {this.getMenuItem(key)}
+        </ListItem>
       )
     });
 
     return (
-      <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
+      <List onChange={this.handleRequestChange.bind(this)}>
         {locationSearchListData}
-      </SelectableList>
+      </List>
     )
   }
 }

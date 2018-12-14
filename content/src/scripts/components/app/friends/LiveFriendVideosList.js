@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
 import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
 import Avatar from '@material-ui/core/Avatar';
-import IconMenu from '@material-ui/core/IconMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import Subheader from '@material-ui/core/Subheader';
-import MoreVertIcon from '@material-ui/core/svg-icons/navigation/more-vert';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 
 import LiveVideo from '../../../../../../utils/LiveVideo';
 import AnalyticsUtil from '../../../../../../utils/AnalyticsUtil';

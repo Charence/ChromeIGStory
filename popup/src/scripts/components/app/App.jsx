@@ -1,22 +1,24 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from '@material-ui/core/Toolbar';
-import {ListItem} from '@material-ui/core/List';
-import {Tabs, Tab} from '@material-ui/core/Tabs';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import ListItem from '@material-ui/core/ListItem';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import Avatar from '@material-ui/core/Avatar';
-import RaisedButton from '@material-ui/core/RaisedButton';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import OpenInNewIcon from '@material-ui/core/svg-icons/action/open-in-new';
-import ActionExploreIcon from '@material-ui/core/svg-icons/action/explore';
-import ActionSearchIcon from '@material-ui/core/svg-icons/action/search';
-import VisibilityOnIcon from '@material-ui/core/svg-icons/action/visibility';
-import VisibilityOffIcon from '@material-ui/core/svg-icons/action/visibility-off';
-import PeopleIcon from '@material-ui/core/svg-icons/social/people';
-import LiveTvIcon from '@material-ui/core/svg-icons/notification/live-tv';
-import PlaceIcon from '@material-ui/core/svg-icons/maps/place';
-import ErrorIcon from '@material-ui/core/svg-icons/alert/error';
-import {BottomNavigation, BottomNavigationItem} from '@material-ui/core/BottomNavigation';
+import Tooltip from '@material-ui/core/Tooltip';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import ActionExploreIcon from '@material-ui/icons/Explore';
+import ActionSearchIcon from '@material-ui/icons/Search';
+import VisibilityOnIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import PeopleIcon from '@material-ui/icons/People';
+import LiveTvIcon from '@material-ui/icons/LiveTv';
+import PlaceIcon from '@material-ui/icons/Place';
+import ErrorIcon from '@material-ui/icons/Error';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -59,7 +61,7 @@ class App extends Component {
     }
   }
 
-  handleTabChange = (value) => {
+  handleTabChange = (event, value) => {
     this.setState({currentTabIndex: value});
     AnalyticsUtil.track(tabNames[value] + " Tab Selected");
   };
@@ -142,12 +144,24 @@ class App extends Component {
       isSnackbarActive: false
     });
   }
+  
+  getPopupWidth() {
+    if(this.state.isFullPopup) {
+      return 'inherit';
+    } else {
+      if(this.props.currentStoryObject === null) {
+        return '440px';
+      } else {
+        return POPUP_CONTAINER_WIDTH + 'px';
+      }
+    } 
+  }
 
   render() {
     const styles = {
       popupContainer: {
-        width: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_WIDTH + 'px',
-        minWidth: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_WIDTH + 'px',
+        width: this.getPopupWidth(),
+        minWidth: this.getPopupWidth(),
         height: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_HEIGHT + 'px',
         minHeight: this.state.isFullPopup ? 'inherit' : POPUP_CONTAINER_HEIGHT + 'px',
         margin: '0px',
@@ -170,7 +184,7 @@ class App extends Component {
         marginTop: '5px'
       },
       friendsStoriesList: {
-        width: '55%',
+        width: this.props.currentStoryObject === null ? '100%' : '55%',
         minHeight: POPUP_CONTAINER_HEIGHT + 'px',
         float: 'left',
         overflowY: 'auto'
@@ -187,6 +201,17 @@ class App extends Component {
         left: '50%',
         transform: 'translate(0%, -50%)'
       },
+      disclaimer: {
+        fontSize: '0.5em'
+      },
+      welcomeAvatar: {
+        width: 124,
+        height: 124,
+        margin: 'auto'
+      },
+      privacyLink: {
+        color: 'black'
+      },
       defaultTab: {
         backgroundColor: TAB_BACKGROUND_COLOR_WHITE,
         color: TAB_TEXT_COLOR_DARK_GRAY
@@ -198,10 +223,12 @@ class App extends Component {
     };
     
     const toolbarActionsGroup = (
-      <ToolbarGroup lastChild={true}>
+      <div style={{width: '100%', textAlign: 'right'}}>
+        <Tooltip
+          title={"Anonymous Viewing " + ((this.props.viewStoriesAnonymously) ? "Enabled" : "Disabled")}
+          placement="bottom"
+          >
         <IconButton
-          tooltip={"Anonymous Viewing " + ((this.props.viewStoriesAnonymously) ? "Enabled" : "Disabled")}
-          tooltipPosition="bottom-center"
           onClick={() => toggleAnonymousStoryViews((viewStoriesAnonymously) => {
             this.props.dispatch({
               type: 'SET_VIEW_STORIES_ANONYMOUSLY',
@@ -210,29 +237,42 @@ class App extends Component {
           })}>
           {(this.props.viewStoriesAnonymously) ? <VisibilityOffIcon /> : <VisibilityOnIcon />}
         </IconButton>
+      </Tooltip>
       {!this.props.isSearchActive &&
+        <Tooltip
+          title="Search"
+          placement="bottom"
+          >
         <IconButton
-        tooltip="Search"
-        tooltipPosition="bottom-center"
+          classes={{
+            colorInherit: TAB_TEXT_COLOR_DARK_GRAY
+          }}
         onClick={()=> {
           this.setSearchActive();
           AnalyticsUtil.track("Search Button Clicked");
         }}>
-        <ActionSearchIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
+        <ActionSearchIcon/>
         </IconButton>
+      </Tooltip>
       }
-      {!this.state.isFullPopup &&
+      {/*!this.state.isFullPopup &&
+        <Tooltip
+          title="Popout"
+          placement="bottom"
+          >
         <IconButton
-        tooltip="Popout"
-        tooltipPosition="bottom-center"
+          classes={{
+            colorInherit: TAB_TEXT_COLOR_DARK_GRAY
+          }}
         onClick={()=> {
           this.props.dispatch({type: 'launch-popup'});
           AnalyticsUtil.track("Popout Button Clicked");
         }}>
-        <OpenInNewIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
+        <OpenInNewIcon/>
         </IconButton>
-      }
-      </ToolbarGroup>
+      </Tooltip>
+      */}
+    </div>
     );
 
     var currentTab;
@@ -259,16 +299,52 @@ class App extends Component {
       break;
     }
     
+    if(!this.props.isPrivacyDisclaimerAcknowledged) {
+      const privacyUrl = 'http://chromeigstory.surge.sh/privacy';
+      return (
+        <div style={styles.popupContainer}>
+          {renderToolbar()}
+          <div className="center-div" style={{width: '100%', fontSize: '22px', textAlign: 'center'}}>
+            <Avatar
+              src={chrome.extension.getURL('img/icon-128.png')}
+              style={styles.welcomeAvatar}
+              />
+            <p>Welcome to Chrome IG Story!</p>
+            <p style={styles.disclaimer}>
+              By continuing, you agree to our {' '}
+              <a
+                style={styles.privacyLink}
+                href={privacyUrl}
+                onClick={()=> window.open(privacyUrl)}
+                >
+                Privacy and User Data Policy
+              </a>.
+            </p>
+            <Button variant="contained" color="primary" onClick={()=> {
+                this.props.dispatch({
+                  type: 'SET_PRIVACY_DISCLAIMER_ACKNOWLEDGED',
+                  isPrivacyDisclaimerAcknowledged: true
+                });
+              }}>
+              Get Started
+            </Button>
+          </div>
+        </div>
+      );
+    }
+    
     if(!this.props.isCookiesValid) {
       return (
         <div style={styles.popupContainer}>
-        {renderToolbar()}
-        <div className="center-div" style={{width: '100%', fontSize: '22px', textAlign: 'center'}}>
-        <ErrorIcon color={TAB_TEXT_COLOR_DARK_GRAY} style={{width: '48px', height: '48px'}}/>
-        <p>There was a problem with your Instagram session.</p>
-        <p>Make sure you are signed into Instagram and try again.</p>
-        <RaisedButton label="Open Instagram" onClick={()=> window.open('https://www.instagram.com/')}/>
-        </div>
+          {renderToolbar()}
+          <div className="center-div" style={{width: '100%', fontSize: '22px', textAlign: 'center'}}>
+            <ErrorIcon style={{width: '48px', height: '48px'}}/>
+            <p>There was a problem with your Instagram session.</p>
+            <p>Make sure you are signed into Instagram and try again.</p>
+            <Button variant="contained" color="primary" onClick={()=> window.open('https://www.instagram.com/')}>
+              Open Instagram
+            </Button>
+          </div>
         </div>
       );
     }
@@ -284,28 +360,28 @@ class App extends Component {
         <div style={styles.friendsStoriesList}>
           {renderToolbar(toolbarActionsGroup)}
           {this.props.isSearchActive && <SearchPage/>}
-          <Tabs
-            value={this.state.currentTabIndex}
-            onChange={this.handleTabChange}
-            className="tabs-container">
-            <Tab value={0} style={styles.tab[0]} label="Following" className="tab">
-              <FriendsTab isLoading={this.state.isFriendsTabLoading}/>
-            </Tab>
-            <Tab value={1} style={styles.tab[1]} label="Explore" className="tab">
-              <ExploreTab isLoading={this.state.isExploreTabLoading}/>
-            </Tab>
-          </Tabs>
+          {!this.props.isSearchActive &&
+            <Tabs
+              value={this.state.currentTabIndex}
+              onChange={this.handleTabChange}
+              className="tabs-container"
+              fullWidth>
+              <Tab value={0} style={styles.tab[0]} label="Following" className="tab"/>
+              <Tab value={1} style={styles.tab[1]} label="Explore" className="tab"/>
+            </Tabs>
+          }
+          {this.state.currentTabIndex === 0 && <FriendsTab isLoading={this.state.isFriendsTabLoading}/>}
+          {this.state.currentTabIndex === 1 && <ExploreTab isLoading={this.state.isExploreTabLoading}/>}
         </div>
-        
+
         <div style={styles.friendsStoryContainer}>
-          {!this.props.isSearchActive && <StoryContainer isSnackbarActive={this.props.isSnackbarActive} />}
+          {<StoryContainer isSnackbarActive={this.props.isSnackbarActive} />}
           <Snackbar
             open={this.props.isSnackbarActive}
             autoHideDuration={3000}
             onRequestClose={() => this.handleSnackbarRequestClose()}
             message="No story available"/>
         </div>
-        
       </div>
     );
   }
@@ -318,7 +394,9 @@ const mapStateToProps = (state) => {
     isSnackbarActive: state.popup.isSnackbarActive,
     isSearchActive: state.popup.isSearchActive,
     viewStoriesAnonymously: state.stories.viewStoriesAnonymously,
-    isCookiesValid: state.popup.isCookiesValid
+    isCookiesValid: state.popup.isCookiesValid,
+    isPrivacyDisclaimerAcknowledged: state.popup.isPrivacyDisclaimerAcknowledged,
+    currentStoryObject: state.popup.currentStoryObject
   };
 };
 

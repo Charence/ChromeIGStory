@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import RefreshIndicator from '@material-ui/core/RefreshIndicator';
+// import RefreshIndicator from '@material-ui/core/RefreshIndicator';
 import LiveFriendVideoReplaysList from './LiveFriendVideoReplaysList';
 import LiveFriendVideosList from './LiveFriendVideosList';
 import FriendStoriesList from './FriendStoriesList';
@@ -18,13 +18,13 @@ class FriendsTab extends Component {
   }
   
   componentDidMount() {
-    if(this.props.currentStoryItem != null || this.props.isFullPopup) {
-      this.setState({isFullPopup: true});
-      this.props.dispatch({
-        type: 'SET_IS_FULL_POPUP',
-        isFullPopup: false
-      });
-    }    
+    // if(this.props.currentStoryItem != null || this.props.isFullPopup) {
+    //   this.setState({isFullPopup: true});
+    //   this.props.dispatch({
+    //     type: 'SET_IS_FULL_POPUP',
+    //     isFullPopup: false
+    //   });
+    // }    
   }
   
   render() {
@@ -51,21 +51,21 @@ class FriendsTab extends Component {
     }
     return (
       <div style={styles.container}>
-        {this.props.isLoading && this.props.friendStories.tray.length > 0 && 
+        {/*this.props.isLoading && this.props.friendStories.tray.length > 0 && 
           <RefreshIndicator
             size={40}
             left={10}
             top={0}
             status="loading"
             style={styles.refreshIndicator}/>
-        }
+        */}
         
+        <LiveFriendVideosList friendStories={this.props.friendStories}/>
+
         {this.props.friendStories.post_live && 
           <LiveFriendVideoReplaysList friendStories={this.props.friendStories}/>
         }
-      
-        <LiveFriendVideosList friendStories={this.props.friendStories}/>
-        
+
         <FriendStoriesList friendStories={this.props.friendStories}/>
       </div>
     );

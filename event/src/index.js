@@ -120,6 +120,18 @@ chrome.runtime.onMessage.addListener(
     }
   });
   
+  // listen for the popup script events
+  chrome.runtime.onConnect.addListener(function (externalPort) {
+    // called when the popup is closed
+    externalPort.onDisconnect.addListener(function () {
+      // clear story object so previous story isn't show when popup is reopened
+      store.dispatch({
+        type: 'SET_CURRENT_POPUP_STORY_OBJECT',
+        currentStoryObject: null
+      });
+    })
+  });
+  
   // listen for tab changes (i.e. AJAX request back to the home page) so we can re-inject
   chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
     if (tab.active) {

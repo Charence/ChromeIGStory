@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardText from '@material-ui/core/CardText';
+// import CardText from '@material-ui/core/CardText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LiveVideo from '../../../../../../utils/LiveVideo';
 import LiveVideoReplayDownloadDialog from '../../../../../../utils/LiveVideoReplayDownloadDialog';
@@ -100,16 +100,18 @@ class LiveFriendVideoReplaysList extends Component {
           actAsExpander={true}
           showExpandableButton={true}
           />
-        <CardText style={{padding: '5px'}} expandable={true}>
-          {liveVideoReplays}
-          {this.state.isDownloadLiveVideoDialogOpen &&
-            <LiveVideoReplayDownloadDialog
-              isOpen={this.state.isDownloadLiveVideoDialogOpen}
-              liveVideoReplays={this.state.liveVideoReplays[this.state.downloadingIndex].broadcasts}
-              onRequestClose={() => this.setState({isDownloadLiveVideoDialogOpen: false})}
-              />
-          }
-        </CardText>
+        {/*
+          <CardText style={{padding: '5px'}} expandable={true}>
+            {liveVideoReplays}
+            {this.state.isDownloadLiveVideoDialogOpen &&
+              <LiveVideoReplayDownloadDialog
+                isOpen={this.state.isDownloadLiveVideoDialogOpen}
+                liveVideoReplays={this.state.liveVideoReplays[this.state.downloadingIndex].broadcasts}
+                onRequestClose={() => this.setState({isDownloadLiveVideoDialogOpen: false})}
+                />
+            }
+          </CardText>
+        */}
       </Card>
     )
   }

@@ -1,6 +1,8 @@
 import React from 'react';
-import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
-import {ListItem} from '@material-ui/core/List';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import JSZip from 'jszip';
 import JSZipUtils from 'jszip-utils';
@@ -171,12 +173,12 @@ export function renderToolbar(additionalGroup) {
     toolbar: {
       backgroundColor: 'white',
       boxShadow: '0 5px 5px -5px rgba(0, 0, 0, 0.118), 5px 0 5px -5px rgba(0, 0, 0, 0.118), -5px 0 5px -5px rgba(0, 0, 0, 0.118)',
+      paddingRight: '10px',
       flexDirection: 'row'
     },
     toolbarAvatar: {
       backgroundColor: 'transparent',
       borderRadius: '0px',
-      marginLeft: '15px'
     },
     toolbarListItem: {
       paddingLeft: '10px',
@@ -192,18 +194,30 @@ export function renderToolbar(additionalGroup) {
   return (
     <Toolbar
       style={styles.toolbar}>
-      <ToolbarGroup firstChild={true} style={{flexDirection: 'row'}}>
-        <Avatar
-          src={chrome.extension.getURL('img/icon-128.png')}
-          style={styles.toolbarAvatar}
+      <Avatar
+        src={chrome.extension.getURL('img/icon-128.png')}
+        style={styles.toolbarAvatar}
+        />
+      <ListItem
+        style={styles.toolbarListItem}
+        disabled={true}>
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography component="span" color="textPrimary" onClick={()=> window.open('https://github.com/CaliAlec/ChromeIGStory')}>
+                Chrome IG Story
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={
+            <React.Fragment>
+              <Typography component="span" color="textPrimary" onClick={()=> window.open('http://alecgarcia.me/')}>
+                by Alec Garcia
+              </Typography>
+            </React.Fragment>
+          }
           />
-        <ListItem
-          primaryText={<div style={{cursor: 'pointer'}} onClick={()=> window.open('https://github.com/CaliAlec/ChromeIGStory')}>Chrome IG Story</div>}
-          secondaryText={<div style={styles.toolbarSecondaryText} onClick={()=> window.open('http://alecgarcia.me/')}>by Alec Garcia</div>}
-          style={styles.toolbarListItem}
-          disabled={true}
-          />
-      </ToolbarGroup>
+      </ListItem>
       {additionalGroup}
     </Toolbar>
   );
@@ -272,13 +286,13 @@ export function getLiveVideoMp4AudioUrl(manifest, callback) {
 }
 
 // returns the URL of a video mp4 file for a post-live video
-export function getLiveVideoMp4VideoUrl(manifest, callback) {
+export function getLiveVideoMp4VideoUrls(manifest, callback) {
   var manifestObject = getLiveVideoManifestObject(manifest);
   var adaptationSet = manifestObject.Period_asArray[0].AdaptationSet_asArray;
   adaptationSet.forEach(function (adaptation) {
-    var representation = adaptation.Representation;
-    if(representation.mimeType === 'video/mp4') {
-      callback(representation.BaseURL);
+    // only a video (not the audio) would have a width or height, so this is the right adaptation
+    if(adaptation.maxWidth || adaptation.maxHeight) {
+      callback(adaptation.Representation_asArray);
     }
   });
 }

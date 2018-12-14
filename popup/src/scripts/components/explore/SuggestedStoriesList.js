@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Subheader from '@material-ui/core/Subheader';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {fetchStory, getTimeElapsed} from '../../../../../utils/Utils';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
-
-let SelectableList = makeSelectable(List);
 
 class SuggestedStoriesList extends Component {
   constructor(props){
@@ -59,48 +59,82 @@ class SuggestedStoriesList extends Component {
     }
   }
   
+  renderListItem(index, storyItem) {
+    const styles = {
+      listItem: {
+        flex: 1,
+        background: 'transparent',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        minHeight: '48px'
+      },
+      listItemContent: {
+        display: 'flex', 
+        flex: 1
+      },
+      listItemActions: {
+        textAlign: 'right'
+      }
+    }
+    
+    const { selectedIndex, isDownloadingStory, downloadingIndex } = this.state;
+    var user, name;
+    user = (storyItem.user) ? storyItem.user : storyItem.owner;
+    name = (user.username) ? user.username : user.name;
+    return (
+      <ListItem
+        key={index}
+        button
+        selected={selectedIndex === index}
+        onClick={event => this.handleRequestChange(event, index)}
+        >
+        <Toolbar style={styles.listItem}>
+          <div style={styles.listItemContent}>
+            <ListItemAvatar>
+              <Avatar src={user.profile_pic_url} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={name}
+              secondary={getTimeElapsed(storyItem.latest_reel_media)}
+              />
+          </div>
+          <div style={styles.listItemActions}>
+            {/*
+            <Tooltip
+              title="Share"
+              placement="bottom"
+              >
+            <IconButton
+              onClick={() => this.onShareStory(key)}>
+              <ShareIcon />
+            </IconButton>
+          </Tooltip>
+          */}
+          <Tooltip
+            title="Download"
+            placement="bottom"
+            >
+            <IconButton
+              onClick={() => this.onDownloadStory(key)}>
+              {(this.state.isDownloadingStory && this.state.downloadingIndex === key) ? <CircularProgress size={24}/> : <DownloadIcon />}
+            </IconButton>
+          </Tooltip>
+          </div>
+        </Toolbar>
+      </ListItem>
+    )
+  }
+  
   render() {
-    const friendStoriesListData = this.props.stories.tray.map((friendStory, key) => {
-      var user, name;
-      user = (friendStory.user) ? friendStory.user : friendStory.owner;
-      name = (user.username) ? user.username : user.name;
-      return (
-        <ListItem
-          key={key}
-          value={key}
-          innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}>
-          <Toolbar style={{paddingTop: '0px', paddingBottom: '0px', background: 'transparent'}}>
-            <ToolbarGroup firstChild={true}>
-              <ListItem
-                disabled
-                primaryText={name}
-                secondaryText={getTimeElapsed(friendStory.latest_reel_media)}
-                leftAvatar={<Avatar src={user.profile_pic_url} />}
-                innerDivStyle={{marginLeft: '-14px'}}
-                />
-            </ToolbarGroup>
-            <ToolbarGroup lastChild={true}>
-              <IconButton
-                tooltip={"Share"}
-                onClick={() => this.onShareStory(key)}>
-                <ShareIcon />
-              </IconButton>
-              <IconButton
-                tooltip="Download"
-                onClick={() => this.onDownloadStory(key)}>
-                {(this.state.isDownloadingStory && this.state.downloadingIndex === key) ? <CircularProgress size={24}/> : <DownloadIcon />}
-              </IconButton>
-            </ToolbarGroup>
-          </Toolbar>
-        </ListItem>
-      )
+    const friendStoriesListData = this.props.stories.tray.map((storyItem, key) => {
+      return this.renderListItem(key, storyItem)
     });
     
     return (
-      <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
-        <Subheader>Suggested Stories</Subheader>
+      <List onChange={this.handleRequestChange.bind(this)}>
+        <ListSubheader disableSticky>Suggested Stories</ListSubheader>
         {friendStoriesListData}
-      </SelectableList>
+      </List>
     )
   }
 }

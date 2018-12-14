@@ -2,9 +2,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Store} from 'react-chrome-redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import Raven from 'raven-js';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import StoriesTray from './components/app/StoriesTray';
@@ -37,14 +36,10 @@ import {
   muiTheme
 } from '../../../utils/Constants';
 
-var instagramFeed, instagramFeedContainer, instagramLocationFeed,
+var instagramFeed, instagramLocationFeed,
 instagramHashtagFeed, instagramHashtagName, instagramUserImage, instagramUserUsername,
 instagramNativeStoriesContainer, storiesListContainer;
 export const proxyStore = new Store({portName: 'chrome-ig-story'});
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
 
 if(SENTRY_TOKEN !== null) {
   Raven.config(SENTRY_TOKEN).install();
@@ -69,7 +64,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 // determine the proper element that exists on the page and inject the corresponding data for it
 function injectContentScript() {
-  instagramFeedContainer = document.getElementsByClassName(INSTAGRAM_FEED_CONTAINER_CLASS_NAME)[0];
   instagramFeed = document.getElementsByClassName(INSTAGRAM_FEED_CLASS_NAME)[0];
   instagramLocationFeed = document.getElementsByClassName(INSTAGRAM_LOCATION_FEED_CLASS_NAME)[0];
   instagramHashtagFeed = document.getElementsByClassName(INSTAGRAM_HASHTAG_FEED_CLASS_NAME)[0];
@@ -95,8 +89,8 @@ function injectContentScript() {
     if(!document.getElementById("storiesListContainer")) {
       if(instagramNativeStoriesContainer) {
         $(instagramNativeStoriesContainer).remove();
-        injectFriendStories();
       }
+      injectFriendStories();
     }
   }
 }
@@ -280,21 +274,12 @@ function renderStoriesList() {
     const anchor = document.createElement('div');
     anchor.id = 'rcr-anchor';
     if(!document.getElementById("rcr-anchor")) {
-      
-      if(!instagramNativeStoriesContainer) {
-        instagramFeed = document.getElementsByClassName(INSTAGRAM_NATIVE_STORIES_LIST_CONTAINER_CLASS_NAME)[0];
-      }
-      
       instagramFeed.insertBefore(anchor, instagramFeed.childNodes[0]);
-      if(instagramFeedContainer) {
-        instagramFeedContainer.style.maxWidth = '600px';
-      }
-      
       // wait for the store to connect to the background page
       proxyStore.ready().then(() => {
         render(
           <Provider store={proxyStore}>
-            <MuiThemeProvider muiTheme={muiTheme}>
+            <MuiThemeProvider theme={muiTheme}>
               <StoriesTray/>
             </MuiThemeProvider>  
           </Provider>

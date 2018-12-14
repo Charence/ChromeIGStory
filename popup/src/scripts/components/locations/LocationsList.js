@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
+import ListItem from '@material-ui/core/ListItem';;
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Subheader from '@material-ui/core/Subheader';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InstagramApi from '../../../../../utils/InstagramApi';
 import {downloadStory, getStorySlide, getTimeElapsed} from '../../../../../utils/Utils';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
 import {countriesList} from '../../../../../static/js/locationData.js'
-
-let SelectableList = makeSelectable(List);
 
 class LocationsList extends Component {
   constructor(props){
@@ -100,10 +97,10 @@ class LocationsList extends Component {
     });
     
     return (
-      <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
-        <Subheader>Location Stories</Subheader>
+      <List onChange={this.handleRequestChange.bind(this)}>
+        <ListSubheader>Location Stories</ListSubheader>
         {locationStoriesListData}
-      </SelectableList>
+      </List>
     )
   }
 }

@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
-import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
-import IconMenu from '@material-ui/core/IconMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import Subheader from '@material-ui/core/Subheader';
-import MoreVertIcon from '@material-ui/core/svg-icons/navigation/more-vert';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
 
 import LiveVideo from '../../../../../utils/LiveVideo';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
 import {getStorySlide} from '../../../../../utils/Utils';
-
-let SelectableList = makeSelectable(List);
 
 class LiveFriendVideosList extends Component {
   constructor(props){
@@ -42,48 +41,79 @@ class LiveFriendVideosList extends Component {
     window.open('https://watchmatcha.com/user/' + selectedStory.broadcast_owner.username);
   }
   
+  renderListItem(index, liveItem) {
+    const styles = {
+      listItem: {
+        flex: 1,
+        background: 'transparent',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        minHeight: '48px'
+      },
+      listItemContent: {
+        display: 'flex', 
+        flex: 1
+      },
+      listItemActions: {
+        textAlign: 'right'
+      }
+    }
+    
+    const { selectedIndex } = this.state;
+    const isPrivate = liveItem.broadcast_owner.is_private;
+    
+    return (
+      <ListItem
+        key={index}
+        button
+        selected={selectedIndex === index}
+        onClick={event => this.handleRequestChange(event, index)}
+        >
+        <Toolbar style={styles.listItem}>
+          <div style={styles.listItemContent}>
+            <ListItemAvatar>
+              <Avatar src={liveItem.broadcast_owner.profile_pic_url} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={liveItem.broadcast_owner.username}
+              secondary={liveItem.viewer_count + ' viewers'}
+              />
+          </div>
+          <div style={styles.listItemActions}>
+            {/*
+            <Tooltip
+              title={(isPrivate) ? "Can't Share Private Story" : "Share"}
+              placement="bottom"
+              >
+              <IconButton
+                disabled={isPrivate}
+                onClick={() => this.onShareStory(key)}>
+                <ShareIcon />
+              </IconButton>
+            </Tooltip>
+            */}
+          </div>
+        </Toolbar>
+      </ListItem>
+    )
+  }
+  
   render() {
     if(!this.props.friendStories.broadcasts || this.props.friendStories.broadcasts.length === 0) {
       return (<div></div>);
     }
     
-    const friendStoriesListData = this.props.friendStories.broadcasts.map((friendStory, key) => {
-      const isPrivate = friendStory.broadcast_owner.is_private;
-      return (
-        <ListItem
-          key={key}
-          value={key}
-          innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}>
-          <Toolbar style={{paddingTop: '0px', paddingBottom: '0px', background: 'transparent'}}>
-            <ToolbarGroup firstChild={true}>
-              <ListItem
-                disabled
-                primaryText={friendStory.broadcast_owner.username}
-                secondaryText={friendStory.viewer_count + ' viewers'}
-                leftAvatar={<Avatar src={friendStory.broadcast_owner.profile_pic_url} />}
-                innerDivStyle={{marginLeft: '-14px'}}
-                />
-            </ToolbarGroup>
-            <ToolbarGroup lastChild={true}>
-              <IconButton
-                tooltip={(isPrivate) ? "Can't Share Private Live Video" : "Share"}
-                disabled={isPrivate}
-                onClick={() => this.onShareStory(key)}>
-                <ShareIcon />
-              </IconButton>
-            </ToolbarGroup>
-          </Toolbar>
-        </ListItem>
-      )
+    const friendStoriesListData = this.props.friendStories.broadcasts.map((liveItem, key) => {
+      return this.renderListItem(key, liveItem);
     });
-      
-      return (
-        <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
-          <Subheader>Live Videos</Subheader>
-          {friendStoriesListData}
-        </SelectableList>
-      )
-    }
+    
+    return (
+      <List onChange={this.handleRequestChange.bind(this)}>
+        <ListSubheader disableSticky>Live Videos</ListSubheader>
+        {friendStoriesListData}
+      </List>
+    )
   }
+}
 
 export default LiveFriendVideosList;

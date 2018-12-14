@@ -1,4 +1,4 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 // Instagram API POST request signing variables
 export const SIG_KEY = "0443b39a54b05f064a4917a3d1da4d6524a3fb0878eacabf1424515051674daa";
@@ -21,8 +21,8 @@ export const INSTAGRAM_PROFILE_ARTICLE_CONTAINER_CLASS_NAME = "_mesn5";
 export const INSTAGRAM_HASHTAG_ARTICLE_CONTAINER_CLASS_NAME = "_jzhdd";
 export const INSTAGRAM_LOCATION_ARTICLE_CONTAINER_CLASS_NAME = "_m558i";
 
-export const INSTAGRAM_FEED_CONTAINER_CLASS_NAME = "_owark";
-export const INSTAGRAM_FEED_CLASS_NAME = "_d4oao";
+export const INSTAGRAM_FEED_CONTAINER_CLASS_NAME = "XmSS_";
+export const INSTAGRAM_FEED_CLASS_NAME = "cGcGK";
 export const INSTAGRAM_LOCATION_FEED_CLASS_NAME = "_5b1eb";
 export const INSTAGRAM_HASHTAG_FEED_CLASS_NAME = "_j5dqo";
 export const INSTAGRAM_HASHTAG_NAME_CLASS_NAME = "_kwqc3";
@@ -30,7 +30,7 @@ export const INSTAGRAM_USER_IMAGE_CONTAINER_HOLDER_CLASS_NAME = "_b0acm";
 export const INSTAGRAM_USER_IMAGE_CONTAINER_CLASS_NAME = "_82odm";
 export const INSTAGRAM_USER_IMAGE_CLASS_NAME = "_9bt3u";
 export const INSTAGRAM_USER_USERNAME_CLASS_NAME = "_rf3jb notranslate";
-export const INSTAGRAM_NATIVE_STORIES_CONTAINER_CLASS_NAME = "_11dqz";
+export const INSTAGRAM_NATIVE_STORIES_CONTAINER_CLASS_NAME = "_6Rvw2 DPiy6 Igw0E IwRSH eGOV_ _4EzTm iHqQ7 b2rUF ZUqME";
 export const INSTAGRAM_NATIVE_STORIES_LIST_CONTAINER_CLASS_NAME = "_havey";
 
 // UI colors
@@ -48,9 +48,16 @@ export const SENTRY_TOKEN = null;
 export const MIXPANEL_TOKEN = null;
 export const AMPLITUDE_TOKEN = null;
 
-export const muiTheme = getMuiTheme({
+export const muiTheme = createMuiTheme({
   palette: {
-    primary1Color: TAB_TEXT_COLOR_DARK_GRAY,
-    accent1Color: TAB_TEXT_COLOR_LIGHT_GRAY
+    primary: {
+      main: TAB_TEXT_COLOR_DARK_GRAY
+    },
+    secondary: {
+      main: TAB_TEXT_COLOR_LIGHT_GRAY
+    }
+  },
+  typography: {
+    useNextVariants: true,
   },
 });

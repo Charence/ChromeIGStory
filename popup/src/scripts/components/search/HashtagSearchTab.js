@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import RefreshIndicator from '@material-ui/core/RefreshIndicator';
+// import RefreshIndicator from '@material-ui/core/RefreshIndicator';
 import HashtagSearchList from './HashtagSearchList';
 import $ from 'jquery';
 import InstagramApi from '../../../../../utils/InstagramApi';
@@ -15,6 +15,13 @@ class HashtagSearchTab extends Component {
       isLoading: false,
       isFullPopup: false,
       results: []
+    }
+  }
+  
+  componentDidMount() {
+    const { searchQuery } = this.props;
+    if(searchQuery.length > 0) {
+      this.searchForHashtag(searchQuery);
     }
   }
 
@@ -58,14 +65,14 @@ class HashtagSearchTab extends Component {
     }
     return (
       <div style={styles.container}>
-        {this.state.isLoading && this.state.results.length > 0 &&
+        {/*this.state.isLoading && this.state.results.length > 0 &&
           <RefreshIndicator
             size={40}
             left={10}
             top={0}
             status="loading"
             style={styles.refreshIndicator}/>
-        }
+        */}
 
         <HashtagSearchList results={this.state.results}/>
       </div>

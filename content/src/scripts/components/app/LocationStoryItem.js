@@ -3,7 +3,7 @@ import Popover from '@material-ui/core/Popover';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
+import DownloadIcon from '@material-ui/icons/GetApp';
 import {downloadStory} from '../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../utils/ContentUtils';
 

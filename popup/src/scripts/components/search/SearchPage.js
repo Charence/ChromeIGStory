@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import TextField from '@material-ui/core/TextField';
-import ActionSearchIcon from '@material-ui/core/svg-icons/action/search';
-import NavigationArrowBackIcon from '@material-ui/core/svg-icons/navigation/arrow-back';
-import NavigationCloseIcon from '@material-ui/core/svg-icons/navigation/close';
-import RaisedButton from '@material-ui/core/RaisedButton';
-import FlatButton from '@material-ui/core/FlatButton';
+import ActionSearchIcon from '@material-ui/icons/Search';
+import NavigationArrowBackIcon from '@material-ui/icons/ArrowBack';
+import NavigationCloseIcon from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import PeopleSearchTab from '../search/PeopleSearchTab';
@@ -36,16 +36,16 @@ class SearchPage extends Component {
   }
 
   componentDidMount() {
-    if(this.props.currentStoryItem != null || this.props.isFullPopup) {
-      this.setState({isFullPopup: true});
-      this.props.dispatch({
-        type: 'SET_IS_FULL_POPUP',
-        isFullPopup: false
-      });
-    }
+    // if(this.props.currentStoryItem != null || this.props.isFullPopup) {
+    //   this.setState({isFullPopup: true});
+    //   this.props.dispatch({
+    //     type: 'SET_IS_FULL_POPUP',
+    //     isFullPopup: false
+    //   });
+    // }
   }
 
-  handleTabChange = (value) => {
+  handleTabChange = (event, value) => {
     this.setState({currentTabIndex: value});
     AnalyticsUtil.track("Search " + tabNames[value] + " Tab Selected", {"query": this.state.searchQuery});
   };
@@ -105,7 +105,7 @@ class SearchPage extends Component {
 
   handleSearchKeyPress(e) {
     if(e.key === 'Enter') {
-      var searchQuery = this.refs.searchQuery.getValue();
+      var searchQuery = e.target.value;
       if(searchQuery.length === 0) {
         return;
       }
@@ -116,7 +116,7 @@ class SearchPage extends Component {
         });
       }
       this.setState({
-        searchQuery: this.refs.searchQuery.getValue()
+        searchQuery
       });
     }
   }
@@ -142,7 +142,10 @@ class SearchPage extends Component {
       },
       searchAppBar: {
         backgroundColor: TAB_BACKGROUND_COLOR_WHITE,
-        height: '56px'
+        height: '56px',
+        width: this.props.currentStoryObject === null ? '100%' : '55%',
+        left: 0,
+        boxShadow: 'none'
       },
       splashSearchField: {
         marginLeft: (this.state.isFullPopup) ? '10px' : 'inherit',
@@ -169,63 +172,68 @@ class SearchPage extends Component {
     styles.tab[this.state.currentTabIndex] = Object.assign({}, styles.tab[this.state.currentTabIndex], styles.defaultTab);
 
     return (
-      <div style={{position: 'absolute', width: '55%', zIndex: 1}}>
+      <div style={{position: 'absolute', width: this.props.currentStoryObject === null ? '100%' : '55%', zIndex: 1}}>
 
         {this.state.isSearchResultsActive &&
           <div>
             <AppBar
               style={styles.searchAppBar}
-              title={
+              >
+              <Toolbar >
+                <IconButton
+                  onClick={()=> this.closeSearch()}
+                  >
+                  <NavigationArrowBackIcon/>
+                </IconButton>
+              
                 <TextField
                   ref="searchQuery"
-                  hintText="Search"
+                  label="Search"
                   onKeyPress={(e) => this.handleSearchKeyPress(e)}
                   style={{width: '100%'}}
                   defaultValue={this.state.searchQuery}
                   />
-              }
-              iconElementLeft={
-                <IconButton onClick={()=> this.closeSearch()}>
-                  <NavigationArrowBackIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
-                </IconButton>
-              }
-              iconElementRight={
-                <IconButton>
-                  <ActionSearchIcon onClick={()=> this.handleSearch()} color={TAB_TEXT_COLOR_DARK_GRAY}/>
-                </IconButton>
-              }
-              zDepth={0}
-              />
+                
+                  <IconButton 
+                    >
+                    <ActionSearchIcon onClick={()=> this.handleSearch()}/>
+                  </IconButton>
+              </Toolbar>
+            
+            </AppBar>
 
             <Tabs
               value={this.state.currentTabIndex}
               onChange={this.handleTabChange}
-              className="tabs-container">
-              <Tab value={0} style={styles.tab[0]} label="People" className="tab">
-                <PeopleSearchTab
-                  searchQuery={this.state.searchQuery}
-                  isFullPopup={this.state.isFullPopup}
-                  />
-              </Tab>
-              <Tab value={1} style={styles.tab[1]}
-                label="Tags" className="tab">
-                <div>
-                  <HashtagSearchTab
-                    searchQuery={this.state.searchQuery}
-                    isFullPopup={this.state.isFullPopup}
-                    />
-                </div>
-              </Tab>
-              <Tab value={2} style={styles.tab[2]}
-                label="Places" className="tab">
-                <div>
-                  <LocationSearchTab
-                    searchQuery={this.state.searchQuery}
-                    isFullPopup={this.state.isFullPopup}
-                    />
-                </div>
-              </Tab>
+              className="tabs-container"
+              fullWidth
+              >
+              <Tab value={0} style={styles.tab[0]} label="People" className="tab"/>
+              <Tab value={1} style={styles.tab[1]} label="Tags" className="tab"/>
+              <Tab value={2} style={styles.tab[2]} label="Places" className="tab"/>
             </Tabs>
+            
+            {this.state.currentTabIndex === 0 && (
+              <PeopleSearchTab
+                searchQuery={this.state.searchQuery}
+                isFullPopup={this.state.isFullPopup}
+                />
+            )
+          }
+          {this.state.currentTabIndex === 1 && (
+            <HashtagSearchTab
+              searchQuery={this.state.searchQuery}
+              isFullPopup={this.state.isFullPopup}
+              />
+          )
+        }
+        {this.state.currentTabIndex === 2 && (
+          <LocationSearchTab
+            searchQuery={this.state.searchQuery}
+            isFullPopup={this.state.isFullPopup}
+            />
+        )
+      }
           </div>
         }
 
@@ -240,7 +248,7 @@ class SearchPage extends Component {
                 onKeyPress={(e) => this.handleSplashSearchKeyPress(e)}
                 />
               
-              <FlatButton
+              <Button
                 label="Search"
                 secondary={true}
                 icon={<ActionSearchIcon/>}
@@ -257,7 +265,7 @@ class SearchPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentStoryItem: state.popup.currentStoryItem,
+    currentStoryObject: state.popup.currentStoryObject,
     isFullPopup: state.popup.isFullPopup
   };
 };

@@ -13,10 +13,12 @@ class StoryModal extends Component {
     return (
       <Dialog
         open={this.props.isStoryModalOpen}
-        onRequestClose={() => closeStoryModal()}
+        onClose={() => closeStoryModal()}
         bodyStyle={{padding: '0px'}}
-        contentStyle={{height: '100vh', width: '56.2vh', transform: 'initial', marginTop: '-16px'}}
-        autoDetectWindowHeight={false}>
+        classes={{
+          container: 'story-modal-container'
+        }}
+        >
         <StoryContainer/>
       </Dialog>
     )

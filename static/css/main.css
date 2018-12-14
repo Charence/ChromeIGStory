@@ -66,6 +66,12 @@
   object-fit: cover !important;
 }
 
+.story-modal-container {
+  width: 56.2vh;
+  height: 100vh;
+  margin: auto;
+}
+
 .view-additional-story-button {
   flex-direction: row !important;
   margin-top: 20px !important;
@@ -108,6 +114,12 @@
 
 .story-arrow-right {
   right: 0px;
+}
+
+.story-chip-label {
+  max-width: 85px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .videoStoryItem {
@@ -377,6 +389,10 @@
   background: -o-linear-gradient(right, #CB007E, #E0003E); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(right, #CB007E, #E0003E); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #CB007E , #E0003E); /* Standard syntax (must be last) */
+}
+
+.tabs-container {
+  background: white;
 }
 
 .tabs-container .tab > div > div svg {

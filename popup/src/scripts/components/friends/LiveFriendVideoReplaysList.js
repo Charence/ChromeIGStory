@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
-import {Toolbar, ToolbarGroup} from '@material-ui/core/Toolbar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import makeSelectable from '@material-ui/core/makeSelectable';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import IconMenu from '@material-ui/core/IconMenu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import Subheader from '@material-ui/core/Subheader';
-import MoreVertIcon from '@material-ui/core/svg-icons/navigation/more-vert';
-import DownloadIcon from '@material-ui/core/svg-icons/file/file-download';
-import ShareIcon from '@material-ui/core/svg-icons/social/share';
-import VideoLibraryIcon from '@material-ui/core/svg-icons/av/video-library';
-import MusicLibraryIcon from '@material-ui/core/svg-icons/av/library-music';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DownloadIcon from '@material-ui/icons/GetApp';
+import ShareIcon from '@material-ui/icons/Share';
+import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
+import MusicLibraryIcon from '@material-ui/icons/LibraryMusic';
 import LiveVideo from '../../../../../utils/LiveVideo';
 import {getTimeElapsed} from '../../../../../utils/Utils';
 import {setCurrentStoryObject} from '../../utils/PopupUtils';
 import AnalyticsUtil from '../../../../../utils/AnalyticsUtil';
 import LiveVideoReplayDownloadDialog from '../../../../../utils/LiveVideoReplayDownloadDialog';
-
-let SelectableList = makeSelectable(List);
 
 class LiveFriendVideoReplaysList extends Component {
   constructor(props){
@@ -53,53 +52,87 @@ class LiveFriendVideoReplaysList extends Component {
     window.open('https://watchmatcha.com/user/' + selectedStory.broadcast_owner.username);
   }
   
+  renderListItem(index, liveVideoReplay) {
+    const styles = {
+      listItem: {
+        flex: 1,
+        background: 'transparent',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        minHeight: '48px'
+      },
+      listItemContent: {
+        display: 'flex', 
+        flex: 1
+      },
+      listItemActions: {
+        textAlign: 'right'
+      }
+    }
+    
+    const { selectedIndex } = this.state;
+    const isPrivate = liveVideoReplay.user.is_private;
+    const latestBroadcast = liveVideoReplay.broadcasts[liveVideoReplay.broadcasts.length - 1];
+    return (
+      <ListItem
+        key={index}
+        button
+        selected={selectedIndex === index}
+        onClick={event => this.handleRequestChange(event, index)}
+        >
+        <Toolbar style={styles.listItem}>
+          <div style={styles.listItemContent}>
+            <ListItemAvatar>
+              <Avatar src={liveVideoReplay.user.profile_pic_url} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={liveVideoReplay.user.username}
+              secondary={getTimeElapsed(latestBroadcast.published_time)}
+              />
+          </div>
+          <div style={styles.listItemActions}>
+            {/*
+            <Tooltip
+              title={(isPrivate) ? "Can't Share Private Story" : "Share"}
+              placement="bottom"
+              >
+              <IconButton
+                disabled={isPrivate}
+                onClick={() => this.onShareStory(index)}>
+                <ShareIcon />
+              </IconButton>
+            </Tooltip>
+            */}
+            <Tooltip
+              title="Download"
+              placement="bottom"
+              >
+              <IconButton
+                onClick={() => this.onDownloadStory(index)}>
+                <DownloadIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </Toolbar>
+      </ListItem>
+    )
+  }
+  
   render() {
     if(this.props.friendStories.post_live.post_live_items.length === 0) {
       return (<div></div>);
     }
     
     const liveFriendVideoReplaysListData = this.props.friendStories.post_live.post_live_items.map((liveVideoReplay, key) => {
-      const isPrivate = liveVideoReplay.user.is_private;
-      const latestBroadcast = liveVideoReplay.broadcasts[liveVideoReplay.broadcasts.length - 1];
-      return (
-        <ListItem
-          key={key}
-          value={key}
-          innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}>
-          <Toolbar style={{paddingTop: '0px', paddingBottom: '0px', background: 'transparent'}}>
-            <ToolbarGroup firstChild={true}>
-              <ListItem
-                disabled
-                primaryText={liveVideoReplay.user.username}
-                secondaryText={getTimeElapsed(latestBroadcast.published_time)}
-                leftAvatar={<Avatar src={liveVideoReplay.user.profile_pic_url} />}
-                innerDivStyle={{marginLeft: '-14px'}}
-                />
-            </ToolbarGroup>
-            <ToolbarGroup lastChild={true}>
-              <IconButton
-                tooltip={(isPrivate) ? "Can't Share Private Story" : "Share"}
-                disabled={isPrivate}
-                onClick={() => this.onShareStory(key)}>
-                <ShareIcon />
-              </IconButton>
-              <IconButton
-                tooltip="Download"
-                onClick={() => this.onDownloadStory(key)}>
-                <DownloadIcon />
-              </IconButton>
-            </ToolbarGroup>
-          </Toolbar>
-        </ListItem>
-      )
+      return this.renderListItem(key, liveVideoReplay);
     });
     
     return (
       <div>
-        <SelectableList value={this.state.selectedIndex} onChange={this.handleRequestChange.bind(this)}>
-          <Subheader>Live Video Replays</Subheader>
+        <List onChange={this.handleRequestChange.bind(this)}>
+          <ListSubheader disableSticky>Live Video Replays</ListSubheader>
           {liveFriendVideoReplaysListData}
-        </SelectableList>
+        </List>
         {this.state.isDownloadLiveVideoDialogOpen &&
           <LiveVideoReplayDownloadDialog
             isOpen={this.state.isDownloadLiveVideoDialogOpen}
