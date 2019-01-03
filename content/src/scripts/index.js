@@ -87,9 +87,9 @@ function injectContentScript() {
     getHashtagStory(hashtag);
   } else {
     if(!document.getElementById("storiesListContainer")) {
-      if(instagramNativeStoriesContainer) {
-        $(instagramNativeStoriesContainer).remove();
-      }
+      // if(instagramNativeStoriesContainer) {
+      //   $(instagramNativeStoriesContainer).remove();
+      // }
       injectFriendStories();
     }
   }
