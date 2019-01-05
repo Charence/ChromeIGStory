@@ -129,6 +129,11 @@ chrome.runtime.onMessage.addListener(
         type: 'SET_CURRENT_POPUP_STORY_OBJECT',
         currentStoryObject: null
       });
+      // set isFullPopup to false so it isn't full when popup is reopened
+      store.dispatch({
+        type: 'SET_IS_FULL_POPUP',
+        isFullPopup: false
+      });
     })
   });
   

@@ -255,23 +255,23 @@ class App extends Component {
         </IconButton>
       </Tooltip>
       }
-      {/*!this.state.isFullPopup &&
+      {!this.state.isFullPopup &&
         <Tooltip
           title="Popout"
           placement="bottom"
           >
-        <IconButton
-          classes={{
-            colorInherit: TAB_TEXT_COLOR_DARK_GRAY
-          }}
-        onClick={()=> {
-          this.props.dispatch({type: 'launch-popup'});
-          AnalyticsUtil.track("Popout Button Clicked");
-        }}>
-        <OpenInNewIcon/>
-        </IconButton>
-      </Tooltip>
-      */}
+          <IconButton
+            classes={{
+              colorInherit: TAB_TEXT_COLOR_DARK_GRAY
+            }}
+            onClick={()=> {
+              this.props.dispatch({type: 'launch-popup'});
+              AnalyticsUtil.track("Popout Button Clicked");
+            }}>
+            <OpenInNewIcon/>
+          </IconButton>
+        </Tooltip>
+      }
     </div>
     );
 
@@ -299,39 +299,39 @@ class App extends Component {
       break;
     }
     
-    if(!this.props.isPrivacyDisclaimerAcknowledged) {
-      const privacyUrl = 'http://chromeigstory.surge.sh/privacy';
-      return (
-        <div style={styles.popupContainer}>
-          {renderToolbar()}
-          <div className="center-div" style={{width: '100%', fontSize: '22px', textAlign: 'center'}}>
-            <Avatar
-              src={chrome.extension.getURL('img/icon-128.png')}
-              style={styles.welcomeAvatar}
-              />
-            <p>Welcome to Chrome IG Story!</p>
-            <p style={styles.disclaimer}>
-              By continuing, you agree to our {' '}
-              <a
-                style={styles.privacyLink}
-                href={privacyUrl}
-                onClick={()=> window.open(privacyUrl)}
-                >
-                Privacy and User Data Policy
-              </a>.
-            </p>
-            <Button variant="contained" color="primary" onClick={()=> {
-                this.props.dispatch({
-                  type: 'SET_PRIVACY_DISCLAIMER_ACKNOWLEDGED',
-                  isPrivacyDisclaimerAcknowledged: true
-                });
-              }}>
-              Get Started
-            </Button>
-          </div>
-        </div>
-      );
-    }
+    // if(!this.props.isPrivacyDisclaimerAcknowledged) {
+    //   const privacyUrl = 'http://chromeigstory.surge.sh/privacy';
+    //   return (
+    //     <div style={styles.popupContainer}>
+    //       {renderToolbar()}
+    //       <div className="center-div" style={{width: '100%', fontSize: '22px', textAlign: 'center'}}>
+    //         <Avatar
+    //           src={chrome.extension.getURL('img/icon-128.png')}
+    //           style={styles.welcomeAvatar}
+    //           />
+    //         <p>Welcome to Chrome IG Story!</p>
+    //         <p style={styles.disclaimer}>
+    //           By continuing, you agree to our {' '}
+    //           <a
+    //             style={styles.privacyLink}
+    //             href={privacyUrl}
+    //             onClick={()=> window.open(privacyUrl)}
+    //             >
+    //             Privacy and User Data Policy
+    //           </a>.
+    //         </p>
+    //         <Button variant="contained" color="primary" onClick={()=> {
+    //             this.props.dispatch({
+    //               type: 'SET_PRIVACY_DISCLAIMER_ACKNOWLEDGED',
+    //               isPrivacyDisclaimerAcknowledged: true
+    //             });
+    //           }}>
+    //           Get Started
+    //         </Button>
+    //       </div>
+    //     </div>
+    //   );
+    // }
     
     if(!this.props.isCookiesValid) {
       return (

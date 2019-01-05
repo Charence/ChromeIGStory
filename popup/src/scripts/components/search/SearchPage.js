@@ -35,16 +35,6 @@ class SearchPage extends Component {
     }
   }
 
-  componentDidMount() {
-    // if(this.props.currentStoryItem != null || this.props.isFullPopup) {
-    //   this.setState({isFullPopup: true});
-    //   this.props.dispatch({
-    //     type: 'SET_IS_FULL_POPUP',
-    //     isFullPopup: false
-    //   });
-    // }
-  }
-
   handleTabChange = (event, value) => {
     this.setState({currentTabIndex: value});
     AnalyticsUtil.track("Search " + tabNames[value] + " Tab Selected", {"query": this.state.searchQuery});
@@ -138,7 +128,7 @@ class SearchPage extends Component {
       searchContainer: {
         position: 'absolute',
         top: '50%',
-        transform: (this.state.isFullPopup) ? 'translate(50%, -50%)' : 'translate(0%, -50%)'
+        transform: (this.props.isFullPopup) ? 'translate(50%, -50%)' : 'translate(0%, -50%)'
       },
       searchAppBar: {
         backgroundColor: TAB_BACKGROUND_COLOR_WHITE,
@@ -148,8 +138,8 @@ class SearchPage extends Component {
         boxShadow: 'none'
       },
       splashSearchField: {
-        marginLeft: (this.state.isFullPopup) ? '10px' : 'inherit',
-        marginRight: (this.state.isFullPopup) ? '10px' : 'inherit'
+        marginLeft: (this.props.isFullPopup) ? '10px' : 'inherit',
+        marginRight: (this.props.isFullPopup) ? '10px' : 'inherit'
       },
       searchTabs: {
         boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
@@ -216,21 +206,21 @@ class SearchPage extends Component {
             {this.state.currentTabIndex === 0 && (
               <PeopleSearchTab
                 searchQuery={this.state.searchQuery}
-                isFullPopup={this.state.isFullPopup}
+                isFullPopup={this.props.isFullPopup}
                 />
             )
           }
           {this.state.currentTabIndex === 1 && (
             <HashtagSearchTab
               searchQuery={this.state.searchQuery}
-              isFullPopup={this.state.isFullPopup}
+              isFullPopup={this.props.isFullPopup}
               />
           )
         }
         {this.state.currentTabIndex === 2 && (
           <LocationSearchTab
             searchQuery={this.state.searchQuery}
-            isFullPopup={this.state.isFullPopup}
+            isFullPopup={this.props.isFullPopup}
             />
         )
       }

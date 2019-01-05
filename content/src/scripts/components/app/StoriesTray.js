@@ -246,19 +246,16 @@ render() {
         {(this.state.selectedStoryTrayType === 'explore') ? <PeopleIcon/> : <ActionExploreIcon/>}
       </IconButton>
     </Tooltip>
-    {/*
-      {!this.state.isFullPopup &&
-        <IconButton
-          tooltip="Popout"
-          tooltipPosition="bottom-center"
-          onClick={()=> {
-            this.props.dispatch({type: 'launch-popup'});
-          }}>
-          <OpenInNewIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
-        </IconButton>
-      }
-    */}
-
+    {!this.state.isFullPopup &&
+      <IconButton
+        tooltip="Popout"
+        tooltipPosition="bottom-center"
+        onClick={()=> {
+          this.props.dispatch({type: 'launch-popup'});
+        }}>
+        <OpenInNewIcon color={TAB_TEXT_COLOR_DARK_GRAY}/>
+      </IconButton>
+    }
     </div>
   );
   

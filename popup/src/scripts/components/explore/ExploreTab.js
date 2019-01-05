@@ -17,24 +17,14 @@ class ExploreTab extends Component {
     }
   }
   
-  componentDidMount() {
-    // if(this.props.currentStoryItem != null || this.props.isFullPopup) {
-    //   this.setState({isFullPopup: true});
-    //   this.props.dispatch({
-    //     type: 'SET_IS_FULL_POPUP',
-    //     isFullPopup: false
-    //   });
-    // }    
-  }
-  
   render() {
     const styles = {
       container: {
         background: TAB_BACKGROUND_COLOR_WHITE,
-        minHeight: + TAB_CONTAINER_HEIGHT + 'px',
+        minHeight: (this.props.isFullPopup) ?  $(window).height() - 112 : TAB_CONTAINER_HEIGHT + 'px',
         overflowX: 'hidden',
         overflowY: 'auto',
-        height: (this.state.isFullPopup) ?  $(window).height() - 112 : TAB_CONTAINER_HEIGHT + 'px'
+        height: (this.props.isFullPopup) ?  $(window).height() - 112 : TAB_CONTAINER_HEIGHT + 'px'
       },
       refreshIndicator: {
         position: 'relative',

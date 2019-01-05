@@ -19,16 +19,6 @@ class LiveTab extends Component {
     }
   }
   
-  componentDidMount() {
-    if(this.props.currentStoryItem != null || this.props.isFullPopup) {
-      this.setState({isFullPopup: true});
-      this.props.dispatch({
-        type: 'SET_IS_FULL_POPUP',
-        isFullPopup: false
-      });
-    }    
-  }
-  
   selectLiveVideo(index) {
     var selectedLiveVideo = this.props.topLiveVideos[index];
     setCurrentStoryObject('LIVE', {broadcast: selectedLiveVideo});
@@ -46,10 +36,8 @@ class LiveTab extends Component {
       root: {
       },
       gridList: {
-        minHeight: TAB_CONTAINER_HEIGHT,
         flexWrap: 'nowrap',
         overflowY: 'auto',
-        minHeight: (this.state.isFullPopup) ?  $(window).height() - 112 : 'inherit'
       },
       viewCountSpan: {
         marginLeft: '5px',
@@ -63,7 +51,7 @@ class LiveTab extends Component {
         <ListSubheader disableSticky>Live Videos</ListSubheader>
         <GridList
           cellHeight={230}
-          cols={3.5}
+          cols={(this.props.isFullPopup) ? 0 : 3.5}
           padding={5}
           style={styles.gridList}>
           {this.props.topLiveVideos.map((tile, index) => (

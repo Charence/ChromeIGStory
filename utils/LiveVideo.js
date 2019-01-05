@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 import { MediaPlayer } from 'dashjs';
 import MediaPlayerEvents from "../node_modules/dashjs/build/es5/src/streaming/MediaPlayerEvents.js";
 import Typography from '@material-ui/core/Typography';
@@ -196,7 +197,8 @@ class LiveVideo extends Component {
         textAlign: 'center'
       },
       liveVideo: {
-        width: '100%'
+        width: '100%',
+        height: (this.props.isFullPopup) ? '100vh' : 'inherit'
       },
       chatMessageStyle: {
         fontSize: '12px',
@@ -354,4 +356,10 @@ class LiveVideo extends Component {
   }
 }
 
-export default LiveVideo;
+const mapStateToProps = (state) => {
+  return {
+    isFullPopup: state.popup.isFullPopup
+  };
+};
+
+export default connect(mapStateToProps)(LiveVideo);
