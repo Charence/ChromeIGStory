@@ -379,7 +379,7 @@ class App extends Component {
           <Snackbar
             open={this.props.isSnackbarActive}
             autoHideDuration={3000}
-            onRequestClose={() => this.handleSnackbarRequestClose()}
+            onClose={() => this.handleSnackbarRequestClose()}
             message="No story available"/>
         </div>
       </div>
